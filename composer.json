@@ -1,0 +1,19 @@
+{
+  "name": "GCWorld/Utilities",
+  "description": "GCWorld Industries standard Utilities pack",
+  "authors": [
+    {
+      "name": "GameCharmer",
+      "email": "admin@gamecharmer.com"
+    }
+  ],
+  "optimize-autoloader":true,
+  "require": {
+    "php": ">=5.4.0"
+  },
+  "autoload": {
+    "psr-0": {
+      "GCWorld": "src/"
+    }
+  }
+}
