@@ -1,7 +1,7 @@
 <?php
 namespace GCWorld\Utilities;
 
-class General
+trait General
 {
 	/**
 	 * @var int

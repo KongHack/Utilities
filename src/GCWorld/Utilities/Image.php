@@ -1,7 +1,7 @@
 <?php
 namespace GCWorld\Utilities;
 
-class Image
+trait Image
 {
 	/**
 	 * @param      $file_path
