@@ -3,7 +3,7 @@ namespace GCWorld\Utilities;
 
 trait CLI
 {
-    protected $foreground_colors = [
+    protected static $foreground_colors = [
         'black'        => '0;30',
         'dark_gray'    => '1;30 ',
         'blue'         => '0;34 ',
@@ -21,7 +21,7 @@ trait CLI
         'light_gray'   => '0;37 ',
         'white'        => '1;37 ',
     ];
-    protected $background_colors = [
+    protected static $background_colors = [
         'black'      => '40 ',
         'red'        => '41 ',
         'green'      => '42 ',
@@ -40,16 +40,16 @@ trait CLI
      * @param null $background_color
      * @return string
      */
-    public function getColoredString($string, $foreground_color = null, $background_color = null)
+    public static function getColoredString($string, $foreground_color = null, $background_color = null)
     {
         $colored_string = '';
         // Check if given foreground color found
-        if ($foreground_color != null && isset($this->foreground_colors[$foreground_color])) {
-            $colored_string .= "\033[".$this->foreground_colors[$foreground_color]."m";
+        if ($foreground_color != null && isset(self::$foreground_colors[$foreground_color])) {
+            $colored_string .= "\033[".self::$foreground_colors[$foreground_color]."m";
         }
         // Check if given background color found
-        if ($background_color != null && isset($this->background_colors[$background_color])) {
-            $colored_string .= "\033[".$this->background_colors[$background_color]."m";
+        if ($background_color != null && isset(self::$background_colors[$background_color])) {
+            $colored_string .= "\033[".self::$background_colors[$background_color]."m";
         }
         // Add string and end coloring
         $colored_string .= $string."\033[0m";
@@ -61,17 +61,17 @@ trait CLI
      * Returns all foreground color names
      * @return array
      */
-    public function getForegroundColors()
+    public static function getForegroundColors()
     {
-        return array_keys($this->foreground_colors);
+        return array_keys(self::$foreground_colors);
     }
 
     /**
      * Returns all background color names
      * @return array
      */
-    public function getBackgroundColors()
+    public static function getBackgroundColors()
     {
-        return array_keys($this->background_colors);
+        return array_keys(self::$background_colors);
     }
 }
