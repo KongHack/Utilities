@@ -1,7 +1,7 @@
 <?php
 namespace GCWorld\Utilities;
 
-trait String
+trait Str
 {
     /**
      * @param int $length
