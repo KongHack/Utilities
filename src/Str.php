@@ -47,4 +47,37 @@ trait Str
         $str = str_ireplace($html, $xml, $str);
         return $str;
     }
+
+    /**
+     * @param string $str
+     *
+     * @throws \Exception
+     *
+     * @return array
+     */
+    public static function starExplode(string $str)
+    {
+        if (!is_string($str)) {
+            throw new \Exception('Star Explode only works on strings!');
+        }
+
+        $arr = explode('*', trim($str, '*'));
+        foreach ($arr as $k => $v) {
+            if (empty($v)) {
+                unset($arr[$k]);
+            }
+        }
+
+        return $arr;
+    }
+
+    /**
+     * @param array $arr
+     *
+     * @return string
+     */
+    public static function starImplode(array $arr)
+    {
+        return '*'.implode('*', $arr).'*';
+    }
 }
