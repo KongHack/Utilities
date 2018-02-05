@@ -117,4 +117,28 @@ trait Image
         @imagedestroy($new_img);
         return $success;
     }
+
+    /**
+     * @param resource $image
+     * @param string   $text
+     * @param string   $font
+     * @param int      $size
+     * @param int      $angle
+     * @return array
+     */
+    public static function imageTTFCenter(resource $image, string $text, string $font, int $size, int $angle = 45)
+    {
+        $xi = imagesx($image);
+        $yi = imagesy($image);
+
+        $box = imagettfbbox($size, $angle, $font, $text);
+
+        $xr = abs(max($box[2], $box[4]));
+        $yr = abs(max($box[5], $box[7]));
+
+        $x = intval(($xi - $xr) / 2);
+        $y = intval(($yi - $yr) / 2);
+
+        return array($x, $y);
+    }
 }
