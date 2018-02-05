@@ -1,7 +1,7 @@
 <?php
 namespace GCWorld\Utilities;
 
-class Colors
+trait Colors
 {
     /**
      * @param string $htmlCode
