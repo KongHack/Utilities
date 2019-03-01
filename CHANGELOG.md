@@ -7,9 +7,15 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [1.2.6](https://github.com/KongHack/Utilities/releases/tag/1.2.6)
+ - @GameCharmer Added convertAscii function to Str
+
+
+
 ## [1.2.5](https://github.com/KongHack/Utilities/releases/tag/1.2.5)
  - @GameCharmer Added imageTTFCenter to Image Trait
  - @GameCharmer Added Colors trait for simple color manipulation
+
 
 
 ## [1.2.4](https://github.com/KongHack/Utilities/releases/tag/1.2.4)
@@ -21,3 +27,5 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [1.2.3](https://github.com/KongHack/Utilities/releases/tag/1.2.3)
  - @GameCharmer last release before moving to github
+
+
