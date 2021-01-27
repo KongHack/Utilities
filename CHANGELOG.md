@@ -7,6 +7,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [2.0.0](https://github.com/KongHack/Utilities/releases/tag/2.0.0)
+ - @GameCharmer modernize getIP method.  Replace DIE with a custom exception
+ - @GameCharmer remove globals trait
+ - @GameCharmer move all Traits into Traits namespace
+ - @GameCharmer Various cleanup and modernization items
+
+
+
 ## [1.2.6](https://github.com/KongHack/Utilities/releases/tag/1.2.6)
  - @GameCharmer Added convertAscii function to Str
 

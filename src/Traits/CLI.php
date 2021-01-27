@@ -1,6 +1,9 @@
 <?php
-namespace GCWorld\Utilities;
+namespace GCWorld\Utilities\Traits;
 
+/**
+ * Trait CLI
+ */
 trait CLI
 {
     protected static $foreground_colors = [

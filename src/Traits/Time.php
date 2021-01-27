@@ -1,6 +1,9 @@
 <?php
-namespace GCWorld\Utilities;
+namespace GCWorld\Utilities\Traits;
 
+/**
+ * Trait Time
+ */
 trait Time
 {
     /**
@@ -32,7 +35,7 @@ trait Time
      *
      * @return string
      */
-    private static function formatGMTOffset($offset)
+    protected static function formatGMTOffset($offset)
     {
         $hours   = intval($offset / 3600);
         $minutes = abs(intval($offset % 3600 / 60));
@@ -45,7 +48,7 @@ trait Time
      *
      * @return mixed
      */
-    private static function formatTimezoneName(string $name)
+    protected static function formatTimezoneName(string $name)
     {
         $name = str_replace('/', ', ', $name);
         $name = str_replace('_', ' ', $name);

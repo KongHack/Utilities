@@ -1,6 +1,11 @@
 <?php
-namespace GCWorld\Utilities;
+namespace GCWorld\Utilities\Traits;
 
+use GCWorld\Utilities\Exceptions\IPAddressException;
+
+/**
+ * Trait General
+ */
 trait General
 {
     /**
@@ -61,10 +66,16 @@ trait General
     }
 
     /**
-     * @return mixed
+     * @return string
+     *
+     * @throws IPAddressException
      */
     public static function getIP()
     {
+        if(php_sapi_name() == 'cli') {
+            return '0.0.0.0';
+        }
+
         if (isset($_SERVER["HTTP_X_FORWARDED_FOR"])) {
             $ips = explode(',', $_SERVER["HTTP_X_FORWARDED_FOR"]);
             foreach ($ips as $ip) {
@@ -77,15 +88,18 @@ trait General
             }
 
             return $_SERVER["HTTP_X_FORWARDED_FOR"];
-        } elseif (isset($_SERVER["X_FORWARDED_FOR"])) {
-            return $_SERVER["X_FORWARDED_FOR"];
-        } elseif (isset($_SERVER["REMOTE_ADDR"])) {
-            return $_SERVER["REMOTE_ADDR"];
-        } elseif (isset($_SERVER["HTTP_CLIENT_IP"])) {
-            return $_SERVER["HTTP_CLIENT_IP"];
-        } else {
-            die('What is going on with your IP Bro?');
         }
+        if (isset($_SERVER["X_FORWARDED_FOR"])) {
+            return $_SERVER["X_FORWARDED_FOR"];
+        }
+        if (isset($_SERVER["REMOTE_ADDR"])) {
+            return $_SERVER["REMOTE_ADDR"];
+        }
+        if (isset($_SERVER["HTTP_CLIENT_IP"])) {
+            return $_SERVER["HTTP_CLIENT_IP"];
+        }
+
+        throw new IPAddressException('Could Not Locate IP Address');
     }
 
     /**

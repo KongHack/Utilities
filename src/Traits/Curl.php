@@ -1,13 +1,16 @@
 <?php
-namespace GCWorld\Utilities;
+namespace GCWorld\Utilities\Traits;
 
+/**
+ * Trait Curl
+ */
 trait Curl
 {
     /**
-     * @param $url
+     * @param string $url
      * @return mixed|string
      */
-    public static function get($url)
+    public static function get(string $url)
     {
         $curl = curl_init();
 
@@ -48,10 +51,10 @@ trait Curl
     }
 
     /**
-     * @param $url
+     * @param string $url
      * @return mixed|string
      */
-    public static function getFast($url)
+    public static function getFast(string $url)
     {
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_HTTPHEADER, array("Accept: */*"));
@@ -70,10 +73,10 @@ trait Curl
     }
 
     /**
-     * @param $url
+     * @param string $url
      * @return mixed|string
      */
-    public static function head($url)
+    public static function head(string $url)
     {
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $url);
@@ -92,11 +95,11 @@ trait Curl
     }
 
     /**
-     * @param $url
-     * @param array $fields
-     * @return mixed|string
+     * @param string $url
+     * @param array  $fields
+     * @return mixed
      */
-    public static function post($url, array $fields)
+    public static function post(string $url, array $fields)
     {
         $curl = curl_init();
 
@@ -104,7 +107,7 @@ trait Curl
         foreach ($fields as $key => $value) {
             $fields_string .= $key.'='.$value.'&';
         }
-        rtrim($fields_string, '&');
+        $fields_string = rtrim($fields_string, '&');
 
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_POST, count($fields));
@@ -125,11 +128,11 @@ trait Curl
     }
 
     /**
-     * @param       $url
-     * @param array $fields
+     * @param string $url
+     * @param array  $fields
      * @return string
      */
-    public static function postRaw($url, array $fields)
+    public static function postRaw(string $url, array $fields)
     {
         $command = 'curl '.$url.' \\';
         foreach ($fields as $k => $v) {
@@ -141,22 +144,23 @@ trait Curl
     }
 
     /**
-     * @param $url
-     * @param $string
+     * @param string $url
+     * @param string $data
+     *
      * @return string
      */
-    public static function postStringRaw($url, $string)
+    public static function postStringRaw(string $url, string $data)
     {
-        $command = 'curl --data \''.$string.'\' '.$url;
+        $command = 'curl --data \''.$data.'\' '.$url;
         $command = $command.';';
         return shell_exec($command);
     }
 
     /**
-     * @param $url
+     * @param string $url
      * @return mixed
      */
-    public static function getCF($url)
+    public static function getCF(string $url)
     {
         //get cloudflare ChallengeForm
         $data = self::openURLCF($url);
@@ -173,11 +177,11 @@ trait Curl
     }
 
     /**
-     * @param       $url
-     * @param array $post
+     * @param string $url
+     * @param array  $post
      * @return mixed
      */
-    private static function openURLCF($url, $post = [])
+    protected static function openURLCF(string $url, array $post = [])
     {
         $headers[] = 'User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:13.0) Gecko/20100101 Firefox/13.0.1';
         $headers[] = 'Accept: application/json, text/javascript, */*; q=0.01';

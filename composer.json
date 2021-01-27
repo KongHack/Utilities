@@ -8,6 +8,8 @@
     }
   ],
   "require": {
+    "ext-curl": "*",
+    "ext-gd": "*",
     "php": ">=7.1"
   },
   "autoload": {

@@ -1,13 +1,16 @@
 <?php
-namespace GCWorld\Utilities;
+namespace GCWorld\Utilities\Traits;
 
+/**
+ * Trait Image
+ */
 trait Image
 {
     /**
-     * @param      $file_path
-     * @param      $new_file_path
-     * @param int  $size
-     * @param bool $debug
+     * @param string $file_path
+     * @param string $new_file_path
+     * @param int    $size
+     * @param bool   $debug
      * @return bool
      */
     public static function generateThumb($file_path, $new_file_path, $size = 128, $debug = false)
@@ -16,7 +19,7 @@ trait Image
         $options                = array();
         $options['max_width']   = $size;
         $options['max_height']  = $size;
-        list($img_width, $img_height) = @getimagesize($file_path);
+        [$img_width, $img_height] = @getimagesize($file_path);
         if (!$img_width || !$img_height) {
             return false;
         }
@@ -126,7 +129,7 @@ trait Image
      * @param int      $angle
      * @return array
      */
-    public static function imageTTFCenter(resource $image, string $text, string $font, int $size, int $angle = 45)
+    public static function imageTTFCenter($image, string $text, string $font, int $size, int $angle = 45)
     {
         $xi = imagesx($image);
         $yi = imagesy($image);

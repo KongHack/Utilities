@@ -1,6 +1,9 @@
 <?php
-namespace GCWorld\Utilities;
+namespace GCWorld\Utilities\Traits;
 
+/**
+ * Trait Colors
+ */
 trait Colors
 {
     /**
@@ -73,6 +76,10 @@ trait Colors
         $s = (int) round(255.0 * $s);
         $l = (int) round(255.0 * $l);
 
-        return (object) ['hue' => $h, 'saturation' => $s, 'lightness' => $l];
+        return (object) [
+            'hue'        => $h,
+            'saturation' => $s,
+            'lightness'  => $l,
+        ];
     }
 }
