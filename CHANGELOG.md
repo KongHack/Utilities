@@ -7,6 +7,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [2.1.0](https://github.com/KongHack/Utilities/releases/tag/2.1.0)
+- @GameCharmer Update Minimum PHP Version to 8.1
+- @GameCharmer Add `searchSplit` method
+
+
+
 ## [2.0.0](https://github.com/KongHack/Utilities/releases/tag/2.0.0)
  - @GameCharmer modernize getIP method.  Replace DIE with a custom exception
  - @GameCharmer remove globals trait
