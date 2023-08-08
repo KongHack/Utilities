@@ -7,6 +7,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [2.1.1](https://github.com/KongHack/Utilities/releases/tag/2.1.1)
+- @GameCharmer Added DoubleMetaphone class
+
+
+
 ## [2.1.0](https://github.com/KongHack/Utilities/releases/tag/2.1.0)
 - @GameCharmer Update Minimum PHP Version to 8.1
 - @GameCharmer Add `searchSplit` method
