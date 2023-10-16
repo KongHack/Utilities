@@ -162,4 +162,14 @@ trait Str
 
         return $result;
     }
+
+    /**
+     * @param string $name
+     * @return array
+     */
+    public static function getNamePieces(string $name): array
+    {
+        // Thank ALEX for this awesome bit of REGEX!
+        return \preg_split('/(?:#)/', \preg_replace('/([a-z])([A-Z])/', '$1#$2', $name), -1, PREG_SPLIT_NO_EMPTY);
+    }
 }
