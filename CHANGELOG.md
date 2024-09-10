@@ -7,6 +7,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [2.1.3](https://github.com/KongHack/Utilities/releases/tag/2.1.3)
+- @GameCharmer Update Time Trait with new methods
+- @GameCharmer new JSON Trait
+
+
+
 ## [2.1.2](https://github.com/KongHack/Utilities/releases/tag/2.1.2)
 - @GameChamer Add `getNamePieces` to `Str` trait.
 
