@@ -7,6 +7,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [2.2.0](https://github.com/KongHack/Utilities/releases/tag/2.2.0)
+- @GameCharmer PHP 8.4
+
+
+
 ## [2.1.3](https://github.com/KongHack/Utilities/releases/tag/2.1.3)
 - @GameCharmer Update Time Trait with new methods
 - @GameCharmer new JSON Trait
