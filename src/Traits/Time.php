@@ -193,7 +193,7 @@ trait Time
      *
      * @return string
      */
-    public static function timeAgo(string $min, string $max = null): string
+    public static function timeAgo(string $min, ?string $max = null): string
     {
         if (null !== $max && $min > $max) {
             return '';

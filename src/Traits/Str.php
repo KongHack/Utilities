@@ -141,7 +141,7 @@ trait Str
      *
      * @return array
      */
-    public static function searchSplit(string $search, int $maxItems = null): array
+    public static function searchSplit(string $search, ?int $maxItems = null): array
     {
         $result = \str_getcsv($search, ' ');
         if (empty($result)) {

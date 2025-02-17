@@ -38,13 +38,16 @@ trait CLI
 
     /**
      * Returns colored strings
-     * @param      $string
-     * @param null $foreground_color
-     * @param null $background_color
+     * @param string      $string
+     * @param string|null $foreground_color
+     * @param string|null $background_color
      * @return string
      */
-    public static function getColoredString($string, $foreground_color = null, $background_color = null)
-    {
+    public static function getColoredString(
+        string $string,
+        ?string $foreground_color = null,
+        ?string $background_color = null
+    ): string {
         $colored_string = '';
         // Check if given foreground color found
         if ($foreground_color != null && isset(self::$foreground_colors[$foreground_color])) {
@@ -64,7 +67,7 @@ trait CLI
      * Returns all foreground color names
      * @return array
      */
-    public static function getForegroundColors()
+    public static function getForegroundColors(): array
     {
         return array_keys(self::$foreground_colors);
     }
@@ -73,7 +76,7 @@ trait CLI
      * Returns all background color names
      * @return array
      */
-    public static function getBackgroundColors()
+    public static function getBackgroundColors(): array
     {
         return array_keys(self::$background_colors);
     }
