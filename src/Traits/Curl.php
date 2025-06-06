@@ -8,9 +8,9 @@ trait Curl
 {
     /**
      * @param string $url
-     * @return mixed|string
+     * @return string
      */
-    public static function get(string $url)
+    public static function get(string $url): string
     {
         $curl = curl_init();
 
@@ -47,14 +47,15 @@ trait Curl
             $data = '';
         }
         curl_close($curl);
+
         return $data;
     }
 
     /**
      * @param string $url
-     * @return mixed|string
+     * @return string
      */
-    public static function getFast(string $url)
+    public static function getFast(string $url): string
     {
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_HTTPHEADER, array("Accept: */*"));
@@ -69,14 +70,15 @@ trait Curl
             $data = '';
         }
         curl_close($curl);
+
         return $data;
     }
 
     /**
      * @param string $url
-     * @return mixed|string
+     * @return string|int
      */
-    public static function head(string $url)
+    public static function head(string $url): string|int
     {
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $url);
@@ -91,15 +93,16 @@ trait Curl
 
         $retcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         curl_close($curl);
+
         return $retcode;
     }
 
     /**
      * @param string $url
      * @param array  $fields
-     * @return mixed
+     * @return string
      */
-    public static function post(string $url, array $fields)
+    public static function post(string $url, array $fields): string
     {
         $curl = curl_init();
 
@@ -122,9 +125,8 @@ trait Curl
         if ($data === false) {
             $data = '';
         }
-        // close the connection
+
         return $data;
-        // and finally, return $html
     }
 
     /**
@@ -132,7 +134,7 @@ trait Curl
      * @param array  $fields
      * @return string
      */
-    public static function postRaw(string $url, array $fields)
+    public static function postRaw(string $url, array $fields): string
     {
         $command = 'curl '.$url.' \\';
         foreach ($fields as $k => $v) {
@@ -149,18 +151,19 @@ trait Curl
      *
      * @return string
      */
-    public static function postStringRaw(string $url, string $data)
+    public static function postStringRaw(string $url, string $data): string
     {
         $command = 'curl --data \''.$data.'\' '.$url;
         $command = $command.';';
+
         return shell_exec($command);
     }
 
     /**
      * @param string $url
-     * @return mixed
+     * @return string
      */
-    public static function getCF(string $url)
+    public static function getCF(string $url): string
     {
         //get cloudflare ChallengeForm
         $data = self::openURLCF($url);
@@ -173,15 +176,16 @@ trait Curl
             //send jschl_answer to the website
             $data = self::openURLCF($url, $post);
         }
+
         return($data);
     }
 
     /**
      * @param string $url
      * @param array  $post
-     * @return mixed
+     * @return string
      */
-    protected static function openURLCF(string $url, array $post = [])
+    protected static function openURLCF(string $url, array $post = []): string
     {
         $headers[] = 'User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:13.0) Gecko/20100101 Firefox/13.0.1';
         $headers[] = 'Accept: application/json, text/javascript, */*; q=0.01';
@@ -199,6 +203,7 @@ trait Curl
         curl_setopt($ch, CURLOPT_COOKIEFILE, '/tmp/curl.cookie');
         curl_setopt($ch, CURLOPT_COOKIEJAR, '/tmp/curl.cookie');
         $data = curl_exec($ch);
+
         return($data);
     }
 }

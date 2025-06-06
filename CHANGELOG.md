@@ -7,6 +7,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [2.2.1](https://github.com/KongHack/Utilities/releases/tag/2.2.1)
+- @GameCharmer Type Hints and more PHP 8.4 updates
+
+
+
 ## [2.2.0](https://github.com/KongHack/Utilities/releases/tag/2.2.0)
 - @GameCharmer PHP 8.4
 

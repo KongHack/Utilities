@@ -11,17 +11,17 @@ trait General
     /**
      * @var int
      */
-    protected static $encodeOffset = 753;
+    protected static int $encodeOffset = 753;
     /**
      * @var int
      */
-    protected static $encodeMultiplier = 42;
+    protected static int $encodeMultiplier = 42;
 
     /**
-     * @param $val
+     * @param int $val
      * @return string
      */
-    public static function integerToTime($val)
+    public static function integerToTime(int $val): string
     {
         $hr  = floor($val / 60 / 60);
         $min = floor(($val - ($hr * 60 * 60)) / 60);
@@ -32,19 +32,19 @@ trait General
     }
 
     /**
-     * @param $number
+     * @param int $number
      * @return int
      */
-    public static function encode($number)
+    public static function encode(int $number): int
     {
         return (intval($number) * self::$encodeMultiplier) + self::$encodeOffset;
     }
 
     /**
-     * @param $number
+     * @param int $number
      * @return float
      */
-    public static function decode($number)
+    public static function decode(int $number): float
     {
         return (intval($number) - self::$encodeOffset) / self::$encodeMultiplier;
     }
@@ -52,7 +52,7 @@ trait General
     /**
      * @return string
      */
-    public static function getTime()
+    public static function getTime(): string
     {
         return number_format((microtime(true) - $_SERVER['REQUEST_TIME_FLOAT']), 3).'s';
     }
@@ -60,7 +60,7 @@ trait General
     /**
      * @return string
      */
-    public static function getMem()
+    public static function getMem(): string
     {
         return (memory_get_usage(true) / 1024).'KB';
     }
@@ -70,7 +70,7 @@ trait General
      *
      * @throws IPAddressException
      */
-    public static function getIP()
+    public static function getIP(): string
     {
         if(php_sapi_name() == 'cli') {
             return '0.0.0.0';
@@ -80,7 +80,7 @@ trait General
             $ips = explode(',', $_SERVER["HTTP_X_FORWARDED_FOR"]);
             foreach ($ips as $ip) {
                 $ip = trim($ip);
-                if (substr($ip, 0, 3) == '10.') {  //Except out internal IPs
+                if (str_starts_with($ip, '10.')) {  //Except out internal IPs
                     continue;
                 }
 
@@ -103,10 +103,10 @@ trait General
     }
 
     /**
-     * @param $email
+     * @param string $email
      * @return bool
      */
-    public static function validEmail($email)
+    public static function validEmail(string $email): bool
     {
         $isValid = true;
         $atIndex = strrpos($email, "@");
@@ -152,11 +152,11 @@ trait General
     }
 
     /**
-     * @param     $pattern
-     * @param int $flags
+     * @param string $pattern
+     * @param int    $flags
      * @return array
      */
-    public static function glob_recursive($pattern, $flags = 0)
+    public static function glob_recursive(string $pattern, int $flags = 0): array
     {
         $files = glob($pattern, $flags);
         foreach (glob(dirname($pattern).'/*', GLOB_ONLYDIR | GLOB_NOSORT) as $dir) {
@@ -167,26 +167,34 @@ trait General
     }
 
     /**
-     * @param $cmd
+     * @param string $cmd
      */
-    public static function execInBackground($cmd)
+    public static function execInBackground(string $cmd): void
     {
-        if (substr(php_uname(), 0, 7) == "Windows") {
+        if (str_starts_with(php_uname(), "Windows")) {
             pclose(popen("start /B ".$cmd, "r"));
         } else {
             exec($cmd." > /dev/null &");
         }
     }
 
-    public static function getFileNameFromPath($path)
+    /**
+     * @param string $path
+     * @return null|mixed
+     */
+    public static function getFileNameFromPath(string $path): null|string
     {
         return self::getLastArrayValue(explode(DIRECTORY_SEPARATOR, $path));
     }
 
-    public static function getLastArrayValue(array $arr)
+    /**
+     * @param array $arr
+     * @return mixed
+     */
+    public static function getLastArrayValue(array $arr): mixed
     {
-        if (!count($arr)) {
-            return false;
+        if (empty($arr)) {
+            return null;
         }
 
         return $arr[count($arr) - 1];

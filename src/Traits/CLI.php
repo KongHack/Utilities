@@ -6,7 +6,7 @@ namespace GCWorld\Utilities\Traits;
  */
 trait CLI
 {
-    protected static $foreground_colors = [
+    protected static array $foreground_colors = [
         'black'        => '0;30',
         'dark_gray'    => '1;30',
         'blue'         => '0;34',
@@ -24,7 +24,7 @@ trait CLI
         'light_gray'   => '0;37',
         'white'        => '1;37',
     ];
-    protected static $background_colors = [
+    protected static array $background_colors = [
         'black'      => '40',
         'red'        => '41',
         'green'      => '42',

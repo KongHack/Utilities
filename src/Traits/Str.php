@@ -10,7 +10,7 @@ trait Str
      * @param int $length
      * @return string
      */
-    public static function generateRandomString($length = 10): string
+    public static function generateRandomString(int $length = 10): string
     {
         $characters = '0123456789bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ';
         $randomString = '';
@@ -143,7 +143,7 @@ trait Str
      */
     public static function searchSplit(string $search, ?int $maxItems = null): array
     {
-        $result = \str_getcsv($search, ' ');
+        $result = \str_getcsv($search, ' ', "\"", "\\");
         if (empty($result)) {
             $result = \preg_split('#\s+#', $search);
         }

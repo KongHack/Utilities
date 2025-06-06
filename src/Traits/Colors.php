@@ -8,10 +8,9 @@ trait Colors
 {
     /**
      * @param string $htmlCode
-     *
-     * @return mixed
+     * @return float|int
      */
-    public static function HTMLToRGB(string $htmlCode)
+    public static function HTMLToRGB(string $htmlCode): float|int
     {
         if ('#' == $htmlCode[0]) {
             $htmlCode = substr($htmlCode, 1);
@@ -33,7 +32,7 @@ trait Colors
      *
      * @return object
      */
-    public static function RGBToHSL($RGB)
+    public static function RGBToHSL(mixed $RGB): object
     {
         $r = 0xFF & ($RGB >> 0x10);
         $g = 0xFF & ($RGB >> 0x8);

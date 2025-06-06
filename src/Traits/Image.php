@@ -13,10 +13,14 @@ trait Image
      * @param bool   $debug
      * @return bool
      */
-    public static function generateThumb($file_path, $new_file_path, $size = 128, $debug = false)
+    public static function generateThumb(
+        string $file_path,
+        string $new_file_path,
+        int $size = 128,
+        bool $debug = false
+    ): bool
     {
-        $version                = 'thumbnail';
-        $options                = array();
+        $options                = [];
         $options['max_width']   = $size;
         $options['max_height']  = $size;
         [$img_width, $img_height] = @getimagesize($file_path);
@@ -33,17 +37,10 @@ trait Image
         $new_width  = $img_width * $scale;
         $new_height = $img_height * $scale;
 
-        if ($version == 'thumbnail') {
-            $new_x      = ( $new_width  < $options['max_width'] ) ? ( $options['max_width'] - $new_width) / 2 : 0;
-            $new_y      = ( $new_height < $options['max_height']) ? ( $options['max_height'] - $new_height) / 2 : 0;
-            $new_img    = imagecreatetruecolor($options['max_width'], $options['max_height']);
-            imagefilledrectangle($new_img, 0, 0, $options['max_width'], $options['max_height'], imagecolorallocate($new_img, 255, 255, 255));
-        } else {
-            $new_img = imagecreatetruecolor($new_width, $new_height);
-            $new_x   = 0;
-            $new_y   = 0;
-        }
-
+        $new_x      = ( $new_width  < $options['max_width'] ) ? ( $options['max_width'] - $new_width) / 2 : 0;
+        $new_y      = ( $new_height < $options['max_height']) ? ( $options['max_height'] - $new_height) / 2 : 0;
+        $new_img    = imagecreatetruecolor($options['max_width'], $options['max_height']);
+        imagefilledrectangle($new_img, 0, 0, $options['max_width'], $options['max_height'], imagecolorallocate($new_img, 255, 255, 255));
 
         if (!$debug) {
             switch (strtolower(substr(strrchr($file_path, '.'), 1)))
@@ -129,7 +126,7 @@ trait Image
      * @param int      $angle
      * @return array
      */
-    public static function imageTTFCenter($image, string $text, string $font, int $size, int $angle = 45)
+    public static function imageTTFCenter($image, string $text, string $font, int $size, int $angle = 45): array
     {
         $xi = imagesx($image);
         $yi = imagesy($image);
@@ -142,6 +139,6 @@ trait Image
         $x = intval(($xi - $xr) / 2);
         $y = intval(($yi - $yr) / 2);
 
-        return array($x, $y);
+        return [$x, $y];
     }
 }
