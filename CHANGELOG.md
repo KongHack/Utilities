@@ -7,6 +7,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [2.2.2](https://github.com/KongHack/Utilities/releases/tag/2.2.2)
+- @GameCharmer new `secondsToTimeElapsed` method in Time trait
+
+
+
 ## [2.2.1](https://github.com/KongHack/Utilities/releases/tag/2.2.1)
 - @GameCharmer Type Hints and more PHP 8.4 updates
 
