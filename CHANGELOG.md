@@ -7,6 +7,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [2.2.4](https://github.com/KongHack/Utilities/releases/tag/2.2.4)
+- @GameCharmer `FancyArrayTrait`
+
+
+
 ## [2.2.3](https://github.com/KongHack/Utilities/releases/tag/2.2.3)
 - @GameCharmer Base64URL encode/decode in Str trait
 

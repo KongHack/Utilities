@@ -8,9 +8,10 @@
     }
   ],
   "require": {
+    "php": ">=8.4",
     "ext-curl": "*",
     "ext-gd": "*",
-    "php": ">=8.4"
+    "ramsey/uuid": "^4.9"
   },
   "autoload": {
     "psr-4": {

@@ -6,17 +6,42 @@ namespace Composer\Autoload;
 
 class ComposerStaticInite18daa173c840f985aa54b0113ec39ff
 {
+    public static $files = array (
+        'e39a8b23c42d4e1452234d762b03835a' => __DIR__ . '/..' . '/ramsey/uuid/src/functions.php',
+    );
+
     public static $prefixLengthsPsr4 = array (
-        'G' => 
+        'R' =>
+        array (
+            'Ramsey\\Uuid\\' => 12,
+            'Ramsey\\Collection\\' => 18,
+        ),
+        'G' =>
         array (
             'GCWorld\\Utilities\\' => 18,
+        ),
+        'B' =>
+        array (
+            'Brick\\Math\\' => 11,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'GCWorld\\Utilities\\' => 
+        'Ramsey\\Uuid\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/ramsey/uuid/src',
+        ),
+        'Ramsey\\Collection\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/ramsey/collection/src',
+        ),
+        'GCWorld\\Utilities\\' =>
         array (
             0 => __DIR__ . '/../..' . '/src',
+        ),
+        'Brick\\Math\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/brick/math/src',
         ),
     );
 
