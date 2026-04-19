@@ -7,6 +7,29 @@ namespace GCWorld\Utilities\Traits;
 trait Str
 {
     /**
+     * @param string $data
+     * @return string
+     */
+    public static function base64url_encode(string $data): string
+    {
+        return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
+    }
+
+    /**
+     * @param string $data
+     * @return string|false
+     */
+    public static function base64url_decode(string $data): string|false
+    {
+        $padding = strlen($data) % 4;
+        if ($padding > 0) {
+            $data .= str_repeat('=', 4 - $padding);
+        }
+
+        return base64_decode(strtr($data, '-_', '+/'), true);
+    }
+
+    /**
      * @param int $length
      * @return string
      */

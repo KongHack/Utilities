@@ -7,6 +7,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [2.2.3](https://github.com/KongHack/Utilities/releases/tag/2.2.3)
+- @GameCharmer Base64URL encode/decode in Str trait
+
+
+
 ## [2.2.2](https://github.com/KongHack/Utilities/releases/tag/2.2.2)
 - @GameCharmer new `secondsToTimeElapsed` method in Time trait
 
