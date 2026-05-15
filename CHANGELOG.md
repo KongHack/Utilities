@@ -7,6 +7,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [2.2.5](https://github.com/KongHack/Utilities/releases/tag/2.2.5)
+- @GameCharmer Make `starExplode` a bit more flexible
+
+
+
 ## [2.2.4](https://github.com/KongHack/Utilities/releases/tag/2.2.4)
 - @GameCharmer `FancyArrayTrait`
 

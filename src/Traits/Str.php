@@ -78,14 +78,18 @@ trait Str
     }
 
     /**
-     * @param string $str
+     * @param mixed $str
      *
      * @throws \Exception
      *
      * @return array
      */
-    public static function starExplode(string $str): array
+    public static function starExplode(mixed $str): array
     {
+        if(empty($str)) {
+            return [];
+        }
+
         if (!is_string($str)) {
             throw new \Exception('Star Explode only works on strings!');
         }

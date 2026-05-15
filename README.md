@@ -3,4 +3,4 @@
 Contains a bunch of static utility traits
 
 ### Version
-2.2.4
+2.2.5
