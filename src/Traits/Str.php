@@ -1,4 +1,5 @@
 <?php
+
 namespace GCWorld\Utilities\Traits;
 
 /**
@@ -45,14 +46,14 @@ trait Str
     }
 
     /**
-     * @param $string
-     * @param $start
-     * @param $end
+     * @param string $string
+     * @param string $start
+     * @param string $end
      * @return string
      */
     public static function getStringBetween($string, $start, $end): string
     {
-        $string = " ".$string;
+        $string = " " . $string;
         $ini = strpos($string, $start);
         if ($ini == 0) {
             return "";
@@ -64,7 +65,7 @@ trait Str
     }
 
     /**
-     * @param $str
+     * @param string $str
      * @return string
      */
     public static function xmlEntities($str): string
@@ -82,11 +83,11 @@ trait Str
      *
      * @throws \Exception
      *
-     * @return array
+     * @return array<int, string>
      */
     public static function starExplode(mixed $str): array
     {
-        if(empty($str)) {
+        if (empty($str)) {
             return [];
         }
 
@@ -105,13 +106,13 @@ trait Str
     }
 
     /**
-     * @param array $arr
+     * @param list<string> $arr
      *
      * @return string
      */
     public static function starImplode(array $arr): string
     {
-        return '*'.implode('*', $arr).'*';
+        return '*' . implode('*', $arr) . '*';
     }
 
     /**
@@ -122,42 +123,42 @@ trait Str
     public static function convertAscii(string $string): string
     {
         // Replace Single Curly Quotes
-        $search[]  = chr(226).chr(128).chr(152);
+        $search[]  = chr(226) . chr(128) . chr(152);
         $replace[] = "'";
-        $search[]  = chr(226).chr(128).chr(153);
+        $search[]  = chr(226) . chr(128) . chr(153);
         $replace[] = "'";
 
         // Replace Smart Double Curly Quotes
-        $search[]  = chr(226).chr(128).chr(156);
+        $search[]  = chr(226) . chr(128) . chr(156);
         $replace[] = '"';
-        $search[]  = chr(226).chr(128).chr(157);
+        $search[]  = chr(226) . chr(128) . chr(157);
         $replace[] = '"';
 
         // Replace En Dash
-        $search[]  = chr(226).chr(128).chr(147);
+        $search[]  = chr(226) . chr(128) . chr(147);
         $replace[] = '--';
 
         // Replace Em Dash
-        $search[]  = chr(226).chr(128).chr(148);
+        $search[]  = chr(226) . chr(128) . chr(148);
         $replace[] = '---';
 
         // Replace Bullet
-        $search[]  = chr(226).chr(128).chr(162);
+        $search[]  = chr(226) . chr(128) . chr(162);
         $replace[] = '*';
 
         // Replace Middle Dot
-        $search[]  = chr(194).chr(183);
+        $search[]  = chr(194) . chr(183);
         $replace[] = '*';
 
         // Replace Ellipsis with three consecutive dots
-        $search[]  = chr(226).chr(128).chr(166);
+        $search[]  = chr(226) . chr(128) . chr(166);
         $replace[] = '...';
 
         // Apply Replacements
         $string = str_replace($search, $replace, $string);
 
         // Remove any non-ASCII Characters
-        $string = preg_replace("/[^\x01-\x7F]/","", $string);
+        $string = preg_replace("/[^\x01-\x7F]/", "", $string);
 
         return $string;
     }
@@ -166,24 +167,18 @@ trait Str
      * @param string $search
      * @param int|null $maxItems
      *
-     * @return array
+     * @return array<int, string>
      */
     public static function searchSplit(string $search, ?int $maxItems = null): array
     {
         $result = \str_getcsv($search, ' ', "\"", "\\");
-        if (empty($result)) {
-            $result = \preg_split('#\s+#', $search);
-        }
-        if (!\is_array($result)) {
-            return [];
-        }
         foreach ($result as $k => $v) {
-            if (empty($v)) {
+            if (!\is_string($v) || '' === $v) {
                 unset($result[$k]);
             }
         }
 
-        if($maxItems !== null) {
+        if ($maxItems !== null) {
             return array_slice($result, 0, $maxItems);
         }
 
@@ -192,7 +187,7 @@ trait Str
 
     /**
      * @param string $name
-     * @return array
+     * @return list<string>
      */
     public static function getNamePieces(string $name): array
     {

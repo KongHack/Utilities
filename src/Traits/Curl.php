@@ -1,4 +1,5 @@
 <?php
+
 namespace GCWorld\Utilities\Traits;
 
 /**
@@ -99,7 +100,7 @@ trait Curl
 
     /**
      * @param string $url
-     * @param array  $fields
+     * @param array<array-key, scalar|null> $fields
      * @return string
      */
     public static function post(string $url, array $fields): string
@@ -108,12 +109,12 @@ trait Curl
 
         $fields_string = '';
         foreach ($fields as $key => $value) {
-            $fields_string .= $key.'='.$value.'&';
+            $fields_string .= $key . '=' . $value . '&';
         }
         $fields_string = rtrim($fields_string, '&');
 
         curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_POST, count($fields));
+        curl_setopt($curl, CURLOPT_POST, (bool) count($fields));
         curl_setopt($curl, CURLOPT_POSTFIELDS, $fields_string);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_TIMEOUT, 30);
@@ -131,16 +132,16 @@ trait Curl
 
     /**
      * @param string $url
-     * @param array  $fields
+     * @param array<array-key, scalar|null> $fields
      * @return string
      */
     public static function postRaw(string $url, array $fields): string
     {
-        $command = 'curl '.$url.' \\';
+        $command = 'curl ' . $url . ' \\';
         foreach ($fields as $k => $v) {
-            $command .= "\n".' -d \''.$k.'='.$v.'\' \\';
+            $command .= "\n" . ' -d \'' . $k . '=' . $v . '\' \\';
         }
-        $command = substr($command, 0, -2).';';
+        $command = substr($command, 0, -2) . ';';
 
         return shell_exec($command);
     }
@@ -153,8 +154,8 @@ trait Curl
      */
     public static function postStringRaw(string $url, string $data): string
     {
-        $command = 'curl --data \''.$data.'\' '.$url;
-        $command = $command.';';
+        $command = 'curl --data \'' . $data . '\' ' . $url;
+        $command = $command . ';';
 
         return shell_exec($command);
     }
@@ -168,7 +169,7 @@ trait Curl
         //get cloudflare ChallengeForm
         $data = self::openURLCF($url);
         preg_match('/<form id="ChallengeForm" .+ name="act" value="(.+)".+name="jschl_vc" value="(.+)".+<\/form>.+jschl_answer.+\(([0-9\+\-\*]+)\);/Uis', $data, $out);
-        if (count($out)>0) {
+        if (count($out) > 0) {
             eval("\$jschl_answer=$out[3];");
             $post['act']             = $out[1];
             $post['jschl_vc']        = $out[2];
@@ -182,7 +183,7 @@ trait Curl
 
     /**
      * @param string $url
-     * @param array  $post
+     * @param array<string, string> $post
      * @return string
      */
     protected static function openURLCF(string $url, array $post = []): string
@@ -196,7 +197,7 @@ trait Curl
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($ch, CURLOPT_VERBOSE, true);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        if (count($post)>0) {
+        if (count($post) > 0) {
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
         }

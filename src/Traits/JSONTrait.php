@@ -1,22 +1,20 @@
 <?php
+
 namespace GCWorld\Utilities\Traits;
 
-use stdClass;
-use JsonSerializable;
 use Exception;
+use JsonSerializable;
+use stdClass;
 
 /**
  * Trait JSONTrait
  */
 trait JSONTrait
 {
-
     /**
      * @param mixed $json
      *
-     * @SuppressWarnings(PHPMD.CamelCaseMethodName)
-     *
-     * @return array
+     * @return array<array-key, mixed>
      */
     public static function safe_json_decode(mixed $json): array
     {
@@ -42,8 +40,8 @@ trait JSONTrait
     }
 
     /**
-     * @param array|stdClass|JsonSerializable $data
-     * @param int                             $flags
+     * @param array<array-key, mixed>|stdClass|JsonSerializable $data
+     * @param int                                                $flags
      *
      * @throws Exception
      *

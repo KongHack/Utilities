@@ -1,4 +1,5 @@
 <?php
+
 namespace GCWorld\Utilities\Exceptions;
 
 /**
@@ -6,5 +7,4 @@ namespace GCWorld\Utilities\Exceptions;
  */
 class IPAddressException extends \Exception
 {
-
 }

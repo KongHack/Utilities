@@ -1,4 +1,5 @@
 <?php
+
 namespace GCWorld\Utilities\Traits;
 
 use DateInterval;
@@ -12,7 +13,7 @@ use Exception;
 trait Time
 {
     /**
-     * @return array
+     * @return array<string, string>
      */
     public static function getTimeZoneList(): array
     {
@@ -26,7 +27,7 @@ trait Time
             foreach (\DateTimeZone::listIdentifiers() as $timezone) {
                 $now->setTimezone(new DateTimeZone($timezone));
                 $offsets[]            = $offset = $now->getOffset();
-                $timezones[$timezone] = '('.self::formatGMTOffset($offset).') '.self::formatTimezoneName($timezone);
+                $timezones[$timezone] = '(' . self::formatGMTOffset($offset) . ') ' . self::formatTimezoneName($timezone);
             }
 
             array_multisort($offsets, $timezones);
@@ -45,7 +46,7 @@ trait Time
         $hours   = intval($offset / 3600);
         $minutes = abs(intval($offset % 3600 / 60));
 
-        return 'UTC'.($offset ? sprintf('%+03d:%02d', $hours, $minutes) : '');
+        return 'UTC' . ($offset ? sprintf('%+03d:%02d', $hours, $minutes) : '');
     }
 
     /**
@@ -66,7 +67,7 @@ trait Time
 
     /**
      * @param DateInterval $interval
-     * @param array        $parts
+     * @param list<string> $parts
      * @param string       $separator
      *
      * @return string
@@ -75,8 +76,7 @@ trait Time
         DateInterval $interval,
         array $parts = ['y', 'm'],
         string $separator = ' '
-    ): string
-    {
+    ): string {
         $bits = [];
         // years
         if (\in_array('y', $parts)) {
@@ -140,7 +140,7 @@ trait Time
     public static function formatTime(string $value = '00:00'): string
     {
         $tmp = \explode(':', $value);
-        if (3===\count($tmp)) {
+        if (3 === \count($tmp)) {
             $tmp = [$tmp[0], $tmp[1]];
         }
         if (2 != \count($tmp)) {
@@ -154,7 +154,7 @@ trait Time
             $tmp[1] = 0;
         }
 
-        $value  = \str_pad((string) \intval($tmp[0]), 2, '0', STR_PAD_LEFT).':';
+        $value  = \str_pad((string) \intval($tmp[0]), 2, '0', STR_PAD_LEFT) . ':';
         $value .= \str_pad((string) \intval($tmp[1]), 2, '0', STR_PAD_LEFT);
 
         return $value;
@@ -182,7 +182,7 @@ trait Time
         $hrs  = \floor($minutes / 60);
         $mins = \str_pad((string) ($minutes % 60), 2, '0', STR_PAD_LEFT);
 
-        return $hrs.':'.$mins;
+        return $hrs . ':' . $mins;
     }
 
 
@@ -227,7 +227,7 @@ trait Time
         $callback = function ($word, $unit) use (&$output, $interval) {
             if ($interval->{$unit}) {
                 $text    = $interval->format("%{$unit}");
-                $output .= (\strlen($output) ? ' ' : '').$text." {$word}".(1 == $text ? '' : 's');
+                $output .= (\strlen($output) ? ' ' : '') . $text . " {$word}" . (1 == $text ? '' : 's');
 
                 return true;
             }
@@ -252,7 +252,7 @@ trait Time
     }
 
     /**
-     * @param $inputSeconds
+     * @param int|float $inputSeconds
      * @return string
      */
     public function secondsToTimeElapsed($inputSeconds): string
@@ -285,9 +285,9 @@ trait Time
             'second' => (int) $seconds,
         ];
 
-        foreach ($sections as $name => $value){
-            if ($value > 0){
-                $timeParts[] = $value. ' '.$name.($value == 1 ? '' : 's');
+        foreach ($sections as $name => $value) {
+            if ($value > 0) {
+                $timeParts[] = $value . ' ' . $name . ($value == 1 ? '' : 's');
             }
         }
 

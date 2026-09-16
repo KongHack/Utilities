@@ -1,4 +1,5 @@
 <?php
+
 namespace GCWorld\Utilities\Traits;
 
 use GCWorld\Utilities\Exceptions\IPAddressException;
@@ -27,8 +28,13 @@ trait General
         $min = floor(($val - ($hr * 60 * 60)) / 60);
         $sec = floor($val - ($min * 60) - ($hr * 60 * 60));
 
-        return str_pad($hr, 2, "0", STR_PAD_LEFT).':'.str_pad($min, 2, "0", STR_PAD_LEFT).':'.str_pad($sec, 2, "0",
-            STR_PAD_LEFT);
+        return str_pad((string) $hr, 2, "0", STR_PAD_LEFT) . ':'
+            . str_pad((string) $min, 2, "0", STR_PAD_LEFT) . ':' . str_pad(
+                (string) $sec,
+                2,
+                "0",
+                STR_PAD_LEFT
+            );
     }
 
     /**
@@ -54,7 +60,7 @@ trait General
      */
     public static function getTime(): string
     {
-        return number_format((microtime(true) - $_SERVER['REQUEST_TIME_FLOAT']), 3).'s';
+        return number_format((microtime(true) - $_SERVER['REQUEST_TIME_FLOAT']), 3) . 's';
     }
 
     /**
@@ -62,7 +68,7 @@ trait General
      */
     public static function getMem(): string
     {
-        return (memory_get_usage(true) / 1024).'KB';
+        return (memory_get_usage(true) / 1024) . 'KB';
     }
 
     /**
@@ -72,7 +78,7 @@ trait General
      */
     public static function getIP(): string
     {
-        if(php_sapi_name() == 'cli') {
+        if (php_sapi_name() == 'cli') {
             return '0.0.0.0';
         }
 
@@ -110,7 +116,7 @@ trait General
     {
         $isValid = true;
         $atIndex = strrpos($email, "@");
-        if (is_bool($atIndex) && !$atIndex) {
+        if (false === $atIndex) {
             $isValid = false;
         } else {
             $domain    = substr($email, $atIndex + 1);
@@ -154,13 +160,13 @@ trait General
     /**
      * @param string $pattern
      * @param int    $flags
-     * @return array
+     * @return list<string>
      */
     public static function glob_recursive(string $pattern, int $flags = 0): array
     {
         $files = glob($pattern, $flags);
-        foreach (glob(dirname($pattern).'/*', GLOB_ONLYDIR | GLOB_NOSORT) as $dir) {
-            $files = array_merge($files, self::glob_recursive($dir.'/'.basename($pattern), $flags));
+        foreach (glob(dirname($pattern) . '/*', GLOB_ONLYDIR | GLOB_NOSORT) as $dir) {
+            $files = array_merge($files, self::glob_recursive($dir . '/' . basename($pattern), $flags));
         }
 
         return $files;
@@ -172,15 +178,15 @@ trait General
     public static function execInBackground(string $cmd): void
     {
         if (str_starts_with(php_uname(), "Windows")) {
-            pclose(popen("start /B ".$cmd, "r"));
+            pclose(popen("start /B " . $cmd, "r"));
         } else {
-            exec($cmd." > /dev/null &");
+            exec($cmd . " > /dev/null &");
         }
     }
 
     /**
      * @param string $path
-     * @return null|mixed
+     * @return string|null
      */
     public static function getFileNameFromPath(string $path): null|string
     {
@@ -188,7 +194,7 @@ trait General
     }
 
     /**
-     * @param array $arr
+     * @param array<array-key, mixed> $arr
      * @return mixed
      */
     public static function getLastArrayValue(array $arr): mixed
@@ -199,5 +205,4 @@ trait General
 
         return $arr[count($arr) - 1];
     }
-
 }

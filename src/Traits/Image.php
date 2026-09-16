@@ -1,4 +1,5 @@
 <?php
+
 namespace GCWorld\Utilities\Traits;
 
 /**
@@ -18,8 +19,7 @@ trait Image
         string $new_file_path,
         int $size = 128,
         bool $debug = false
-    ): bool
-    {
+    ): bool {
         $options                = [];
         $options['max_width']   = $size;
         $options['max_height']  = $size;
@@ -43,8 +43,7 @@ trait Image
         imagefilledrectangle($new_img, 0, 0, $options['max_width'], $options['max_height'], imagecolorallocate($new_img, 255, 255, 255));
 
         if (!$debug) {
-            switch (strtolower(substr(strrchr($file_path, '.'), 1)))
-            {
+            switch (strtolower(substr(strrchr($file_path, '.'), 1))) {
                 case 'jpg':
                 case 'jpeg':
                     $src_img = @imagecreatefromjpeg($file_path);
@@ -62,8 +61,7 @@ trait Image
                     $src_img = $image_method = null;
             }
         } else {
-            switch (strtolower(substr(strrchr($file_path, '.'), 1)))
-            {
+            switch (strtolower(substr(strrchr($file_path, '.'), 1))) {
                 case 'jpg':
                 case 'jpeg':
                     $src_img = imagecreatefromjpeg($file_path);
@@ -100,18 +98,23 @@ trait Image
         //OVERRIDE and always save a PNG
         $write_image = 'imagepng';
 
-        $success = $src_img && @imagecopyresampled(
-            $new_img,
-            $src_img,
-            $new_x,
-            $new_y,
-            0,
-            0,
-            $new_width,
-            $new_height,
-            $img_width,
-            $img_height
-        ) && $write_image($new_img, $new_file_path);
+        $success = false;
+        if ($src_img) {
+            /** @var bool $copySucceeded */
+            $copySucceeded = @imagecopyresampled(
+                $new_img,
+                $src_img,
+                $new_x,
+                $new_y,
+                0,
+                0,
+                $new_width,
+                $new_height,
+                $img_width,
+                $img_height
+            );
+            $success = $copySucceeded && $write_image($new_img, $new_file_path);
+        }
         // Free up memory (imagedestroy does not delete files):
         @imagedestroy($src_img);
         @imagedestroy($new_img);
@@ -119,15 +122,20 @@ trait Image
     }
 
     /**
-     * @param resource $image
+     * @param \GdImage $image
      * @param string   $text
      * @param string   $font
      * @param int      $size
      * @param int      $angle
-     * @return array
+     * @return array{int, int}
      */
-    public static function imageTTFCenter($image, string $text, string $font, int $size, int $angle = 45): array
-    {
+    public static function imageTTFCenter(
+        $image,
+        string $text,
+        string $font,
+        int $size,
+        int $angle = 45
+    ): array {
         $xi = imagesx($image);
         $yi = imagesy($image);
 

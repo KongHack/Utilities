@@ -1,4 +1,5 @@
 <?php
+
 namespace GCWorld\Utilities;
 
 /**
@@ -15,9 +16,9 @@ class DoubleMetaphone
     protected string $original  = '';
     protected string $primary   = '';
     protected string $secondary = '';
-    protected int    $length    = 0;
-    protected int    $last      = 0;
-    protected int    $current   = 0;
+    protected int $length    = 0;
+    protected int $last      = 0;
+    protected int $current   = 0;
 
     /**
      * DoubleMetaphone constructor.
@@ -28,18 +29,20 @@ class DoubleMetaphone
     {
         $this->length   = \strlen($string);
         $this->last     = $this->length - 1;
-        $this->original = $string.'     ';
+        $this->original = $string . '     ';
 
         $this->original = \strtoupper($this->original);
 
         // skip this at beginning of word
-        if ($this->doStringAt($this->original, 0, self::LEN_2, [
+        if (
+            $this->doStringAt($this->original, 0, self::LEN_2, [
             'GN',
             'KN',
             'PN',
             'WR',
             'PS',
-        ])) {
+            ])
+        ) {
             ++$this->current;
         }
 
@@ -90,7 +93,8 @@ class DoubleMetaphone
                     break;
                 case 'C':
                     // various gremanic
-                    if (($this->current > 1)
+                    if (
+                        ($this->current > 1)
                         && !$this->doIsVowel($this->original, $this->current - self::LEN_2)
                         && $this->doStringAt($this->original, $this->current - 1, self::LEN_3, [
                             'ACH',
@@ -112,7 +116,8 @@ class DoubleMetaphone
                     }
 
                     // special case 'caesar'
-                    if ((0 == $this->current)
+                    if (
+                        (0 == $this->current)
                         && $this->doStringAt($this->original, $this->current, self::LEN_6, [
                             'CAESAR',
                         ])
@@ -125,9 +130,11 @@ class DoubleMetaphone
                     }
 
                     // italian 'chianti'
-                    if ($this->doStringAt($this->original, $this->current, self::LEN_4, [
+                    if (
+                        $this->doStringAt($this->original, $this->current, self::LEN_4, [
                         'CHIA',
-                    ])) {
+                        ])
+                    ) {
                         $this->primary   .= 'K';
                         $this->secondary .= 'K';
                         $this->current   += self::LEN_2;
@@ -135,11 +142,14 @@ class DoubleMetaphone
                         break;
                     }
 
-                    if ($this->doStringAt($this->original, $this->current, self::LEN_2, [
+                    if (
+                        $this->doStringAt($this->original, $this->current, self::LEN_2, [
                         'CH',
-                    ])) {
+                        ])
+                    ) {
                         // find 'michael'
-                        if (($this->current > 0)
+                        if (
+                            ($this->current > 0)
                             && $this->doStringAt($this->original, $this->current, self::LEN_4, [
                                 'CHAE',
                             ])
@@ -152,16 +162,17 @@ class DoubleMetaphone
                         }
 
                         // greek roots e.g. 'chemistry', 'chorus'
-                        if ((0 == $this->current)
+                        if (
+                            (0 == $this->current)
                             && ($this->doStringAt(
-                                    $this->original,
-                                    $this->current + 1,
-                                    self::LEN_5,
-                                    [
+                                $this->original,
+                                $this->current + 1,
+                                self::LEN_5,
+                                [
                                         'HARAC',
                                         'HARIS',
                                     ]
-                                )
+                            )
                                 || $this->doStringAt(
                                     $this->original,
                                     $this->current + 1,
@@ -180,7 +191,8 @@ class DoubleMetaphone
                                 [
                                     'CHORE',
                                 ]
-                            )) {
+                            )
+                        ) {
                             $this->primary   .= 'K';
                             $this->secondary .= 'K';
                             $this->current   += self::LEN_2;
@@ -189,15 +201,16 @@ class DoubleMetaphone
                         }
 
                         // germanic, greek, or otherwise 'ch' for 'kh' sound
-                        if (($this->doStringAt(
-                                    $this->original,
-                                    0,
-                                    self::LEN_4,
-                                    [
+                        if (
+                            ($this->doStringAt(
+                                $this->original,
+                                0,
+                                self::LEN_4,
+                                [
                                         'VAN ',
                                         'VON ',
                                     ]
-                                )
+                            )
                                 || $this->doStringAt(
                                     $this->original,
                                     0,
@@ -226,16 +239,16 @@ class DoubleMetaphone
                                 ]
                             )
                             || (($this->doStringAt(
-                                        $this->original,
-                                        $this->current - 1,
-                                        1,
-                                        [
+                                $this->original,
+                                $this->current - 1,
+                                1,
+                                [
                                             'A',
                                             'O',
                                             'U',
                                             'E',
                                         ]
-                                    )
+                            )
                                     || (0 == $this->current)) // e.g. 'wachtler', 'weschsler', but not 'tichner'
                                 && $this->doStringAt(
                                     $this->original,
@@ -253,19 +266,22 @@ class DoubleMetaphone
                                         'W',
                                         ' ',
                                     ]
-                                ))) {
+                                ))
+                        ) {
                             $this->primary   .= 'K';
                             $this->secondary .= 'K';
                         } else {
                             if ($this->current > 0) {
-                                if ($this->doStringAt(
-                                    $this->original,
-                                    0,
-                                    self::LEN_2,
-                                    [
+                                if (
+                                    $this->doStringAt(
+                                        $this->original,
+                                        0,
+                                        self::LEN_2,
+                                        [
                                         'MC',
-                                    ]
-                                )) {
+                                        ]
+                                    )
+                                ) {
                                     // e.g. 'McHugh'
                                     $this->primary   .= 'K';
                                     $this->secondary .= 'K';
@@ -284,7 +300,8 @@ class DoubleMetaphone
                     }
 
                     // e.g. 'czerny'
-                    if ($this->doStringAt(
+                    if (
+                        $this->doStringAt(
                             $this->original,
                             $this->current,
                             self::LEN_2,
@@ -299,7 +316,8 @@ class DoubleMetaphone
                             [
                                 'WICZ',
                             ]
-                        )) {
+                        )
+                    ) {
                         $this->primary   .= 'S';
                         $this->secondary .= 'X';
                         $this->current   += self::LEN_2;
@@ -308,14 +326,16 @@ class DoubleMetaphone
                     }
 
                     // e.g. 'focaccia'
-                    if ($this->doStringAt(
-                        $this->original,
-                        $this->current + 1,
-                        self::LEN_3,
-                        [
+                    if (
+                        $this->doStringAt(
+                            $this->original,
+                            $this->current + 1,
+                            self::LEN_3,
+                            [
                             'CIA',
-                        ]
-                    )) {
+                            ]
+                        )
+                    ) {
                         $this->primary   .= 'X';
                         $this->secondary .= 'X';
                         $this->current   += self::LEN_3;
@@ -324,7 +344,8 @@ class DoubleMetaphone
                     }
 
                     // double 'C', but not McClellan'
-                    if ($this->doStringAt(
+                    if (
+                        $this->doStringAt(
                             $this->original,
                             $this->current,
                             self::LEN_2,
@@ -332,9 +353,11 @@ class DoubleMetaphone
                                 'CC',
                             ]
                         )
-                        && !((1 == $this->current) && ('M' == \substr($this->original, 0, 1)))) {
+                        && !((1 == $this->current) && ('M' == \substr($this->original, 0, 1)))
+                    ) {
                         // 'bellocchio' but not 'bacchus'
-                        if ($this->doStringAt(
+                        if (
+                            $this->doStringAt(
                                 $this->original,
                                 $this->current + self::LEN_2,
                                 1,
@@ -351,9 +374,11 @@ class DoubleMetaphone
                                 [
                                     'HU',
                                 ]
-                            )) {
+                            )
+                        ) {
                             // 'accident', 'accede', 'succeed'
-                            if (((1 == $this->current) && ('A' == \substr($this->original, $this->current - 1, 1)))
+                            if (
+                                ((1 == $this->current) && ('A' == \substr($this->original, $this->current - 1, 1)))
                                 || $this->doStringAt(
                                     $this->original,
                                     $this->current - 1,
@@ -362,7 +387,8 @@ class DoubleMetaphone
                                         'UCCEE',
                                         'UCCES',
                                     ]
-                                )) {
+                                )
+                            ) {
                                 $this->primary   .= 'KS';
                                 $this->secondary .= 'KS';
                                 // 'bacci', 'bertucci', other italian
@@ -382,16 +408,18 @@ class DoubleMetaphone
                         break;
                     }
 
-                    if ($this->doStringAt(
-                        $this->original,
-                        $this->current,
-                        self::LEN_2,
-                        [
+                    if (
+                        $this->doStringAt(
+                            $this->original,
+                            $this->current,
+                            self::LEN_2,
+                            [
                             'CK',
                             'CG',
                             'CQ',
-                        ]
-                    )) {
+                            ]
+                        )
+                    ) {
                         $this->primary   .= 'K';
                         $this->secondary .= 'K';
                         $this->current   += self::LEN_2;
@@ -399,27 +427,31 @@ class DoubleMetaphone
                         break;
                     }
 
-                    if ($this->doStringAt(
-                        $this->original,
-                        $this->current,
-                        self::LEN_2,
-                        [
+                    if (
+                        $this->doStringAt(
+                            $this->original,
+                            $this->current,
+                            self::LEN_2,
+                            [
                             'CI',
                             'CE',
                             'CY',
-                        ]
-                    )) {
+                            ]
+                        )
+                    ) {
                         // italian vs. english
-                        if ($this->doStringAt(
-                            $this->original,
-                            $this->current,
-                            self::LEN_3,
-                            [
+                        if (
+                            $this->doStringAt(
+                                $this->original,
+                                $this->current,
+                                self::LEN_3,
+                                [
                                 'CIO',
                                 'CIE',
                                 'CIA',
-                            ]
-                        )) {
+                                ]
+                            )
+                        ) {
                             $this->primary   .= 'S';
                             $this->secondary .= 'X';
                         } else {
@@ -436,19 +468,22 @@ class DoubleMetaphone
                     $this->secondary .= 'K';
 
                     // name sent in 'mac caffrey', 'mac gregor'
-                    if ($this->doStringAt(
-                        $this->original,
-                        $this->current + 1,
-                        self::LEN_2,
-                        [
+                    if (
+                        $this->doStringAt(
+                            $this->original,
+                            $this->current + 1,
+                            self::LEN_2,
+                            [
                             ' C',
                             ' Q',
                             ' G',
-                        ]
-                    )) {
+                            ]
+                        )
+                    ) {
                         $this->current += self::LEN_3;
                     } else {
-                        if ($this->doStringAt(
+                        if (
+                            $this->doStringAt(
                                 $this->original,
                                 $this->current + 1,
                                 1,
@@ -466,7 +501,8 @@ class DoubleMetaphone
                                     'CE',
                                     'CI',
                                 ]
-                            )) {
+                            )
+                        ) {
                             $this->current += self::LEN_2;
                         } else {
                             ++$this->current;
@@ -475,24 +511,28 @@ class DoubleMetaphone
 
                     break;
                 case 'D':
-                    if ($this->doStringAt(
-                        $this->original,
-                        $this->current,
-                        self::LEN_2,
-                        [
-                            'DG',
-                        ]
-                    )) {
-                        if ($this->doStringAt(
+                    if (
+                        $this->doStringAt(
                             $this->original,
-                            $this->current + self::LEN_2,
-                            1,
+                            $this->current,
+                            self::LEN_2,
                             [
+                            'DG',
+                            ]
+                        )
+                    ) {
+                        if (
+                            $this->doStringAt(
+                                $this->original,
+                                $this->current + self::LEN_2,
+                                1,
+                                [
                                 'I',
                                 'E',
                                 'Y',
-                            ]
-                        )) {
+                                ]
+                            )
+                        ) {
                             // e.g. 'edge'
                             $this->primary   .= 'J';
                             $this->secondary .= 'J';
@@ -508,15 +548,17 @@ class DoubleMetaphone
                         break;
                     }
 
-                    if ($this->doStringAt(
-                        $this->original,
-                        $this->current,
-                        self::LEN_2,
-                        [
+                    if (
+                        $this->doStringAt(
+                            $this->original,
+                            $this->current,
+                            self::LEN_2,
+                            [
                             'DT',
                             'DD',
-                        ]
-                    )) {
+                            ]
+                        )
+                    ) {
                         $this->primary   .= 'T';
                         $this->secondary .= 'T';
                         $this->current   += self::LEN_2;
@@ -567,7 +609,8 @@ class DoubleMetaphone
                         }
 
                         // Parker's rule (with some further refinements) - e.g. 'hugh'
-                        if ((($this->current > 1)
+                        if (
+                            (($this->current > 1)
                                 && $this->doStringAt(
                                     $this->original,
                                     $this->current - self::LEN_2,
@@ -598,13 +641,15 @@ class DoubleMetaphone
                                         'B',
                                         'H',
                                     ]
-                                ))) {
+                                ))
+                        ) {
                             $this->current += self::LEN_2;
 
                             break;
                         }
                         // e.g. 'laugh', 'McLaughlin', 'cough', 'gough', 'rough', 'tough'
-                        if (($this->current > self::LEN_2) && ('U' == \substr($this->original, $this->current - 1, 1))
+                        if (
+                            ($this->current > self::LEN_2) && ('U' == \substr($this->original, $this->current - 1, 1))
                             && $this->doStringAt(
                                 $this->original,
                                 $this->current - self::LEN_3,
@@ -616,10 +661,12 @@ class DoubleMetaphone
                                     'R',
                                     'T',
                                 ]
-                            )) {
+                            )
+                        ) {
                             $this->primary   .= 'F';
                             $this->secondary .= 'F';
-                        } elseif (($this->current > 0) // @phpstan-ignore-line
+                        } elseif (
+                            ($this->current > 0)
                             && 'I' != \substr($this->original, $this->current - 1, 1)
                         ) {
                             $this->primary   .= 'K';
@@ -631,13 +678,16 @@ class DoubleMetaphone
                     }
 
                     if ('N' == \substr($this->original, $this->current + 1, 1)) {
-                        if ((1 == $this->current) && $this->doIsVowel($this->original, 0)
-                            && !$this->doSlavoGermanic($this->original)) {
+                        if (
+                            (1 == $this->current) && $this->doIsVowel($this->original, 0)
+                            && !$this->doSlavoGermanic($this->original)
+                        ) {
                             $this->primary   .= 'KN';
                             $this->secondary .= 'N';
                         } else {
                             // not e.g. 'cagney'
-                            if (!$this->doStringAt(
+                            if (
+                                !$this->doStringAt(
                                     $this->original,
                                     $this->current + self::LEN_2,
                                     self::LEN_2,
@@ -646,7 +696,8 @@ class DoubleMetaphone
                                     ]
                                 )
                                 && ('Y' != \substr($this->original, $this->current + 1))
-                                && !$this->doSlavoGermanic($this->original)) {
+                                && !$this->doSlavoGermanic($this->original)
+                            ) {
                                 $this->primary   .= 'N';
                                 $this->secondary .= 'KN';
                             } else {
@@ -660,7 +711,8 @@ class DoubleMetaphone
                     }
 
                     // 'tagliaro'
-                    if ($this->doStringAt(
+                    if (
+                        $this->doStringAt(
                             $this->original,
                             $this->current + 1,
                             self::LEN_2,
@@ -668,7 +720,8 @@ class DoubleMetaphone
                                 'LI',
                             ]
                         )
-                        && !$this->doSlavoGermanic($this->original)) {
+                        && !$this->doSlavoGermanic($this->original)
+                    ) {
                         $this->primary   .= 'KL';
                         $this->secondary .= 'L';
                         $this->current   += self::LEN_2;
@@ -677,7 +730,8 @@ class DoubleMetaphone
                     }
 
                     // -ges-, -gep-, -gel- at beginning
-                    if ((0 == $this->current)
+                    if (
+                        (0 == $this->current)
                         && (('Y' == \substr($this->original, $this->current + 1, 1))
                             || $this->doStringAt(
                                 $this->original,
@@ -696,7 +750,8 @@ class DoubleMetaphone
                                     'EI',
                                     'ER',
                                 ]
-                            ))) {
+                            ))
+                    ) {
                         $this->primary   .= 'K';
                         $this->secondary .= 'J';
                         $this->current   += self::LEN_2;
@@ -705,14 +760,15 @@ class DoubleMetaphone
                     }
 
                     // -ger-, -gy-
-                    if (($this->doStringAt(
-                                $this->original,
-                                $this->current + 1,
-                                self::LEN_2,
-                                [
+                    if (
+                        ($this->doStringAt(
+                            $this->original,
+                            $this->current + 1,
+                            self::LEN_2,
+                            [
                                     'ER',
                                 ]
-                            )
+                        )
                             || ('Y' == \substr($this->original, $this->current + 1, 1)))
                         && !$this->doStringAt(
                             $this->original,
@@ -741,7 +797,8 @@ class DoubleMetaphone
                                 'RGY',
                                 'OGY',
                             ]
-                        )) {
+                        )
+                    ) {
                         $this->primary   .= 'K';
                         $this->secondary .= 'J';
                         $this->current   += self::LEN_2;
@@ -750,7 +807,8 @@ class DoubleMetaphone
                     }
 
                     // italian e.g. 'biaggi'
-                    if ($this->doStringAt(
+                    if (
+                        $this->doStringAt(
                             $this->original,
                             $this->current + 1,
                             1,
@@ -768,17 +826,19 @@ class DoubleMetaphone
                                 'AGGI',
                                 'OGGI',
                             ]
-                        )) {
+                        )
+                    ) {
                         // obvious germanic
-                        if (($this->doStringAt(
-                                    $this->original,
-                                    0,
-                                    self::LEN_4,
-                                    [
+                        if (
+                            ($this->doStringAt(
+                                $this->original,
+                                0,
+                                self::LEN_4,
+                                [
                                         'VAN ',
                                         'VON ',
                                     ]
-                                )
+                            )
                                 || $this->doStringAt(
                                     $this->original,
                                     0,
@@ -794,19 +854,22 @@ class DoubleMetaphone
                                 [
                                     'ET',
                                 ]
-                            )) {
+                            )
+                        ) {
                             $this->primary   .= 'K';
                             $this->secondary .= 'K';
                         } else {
                             // always soft if french ending
-                            if ($this->doStringAt(
-                                $this->original,
-                                $this->current + 1,
-                                self::LEN_4,
-                                [
+                            if (
+                                $this->doStringAt(
+                                    $this->original,
+                                    $this->current + 1,
+                                    self::LEN_4,
+                                    [
                                     'IER ',
-                                ]
-                            )) {
+                                    ]
+                                )
+                            ) {
                                 $this->primary   .= 'J';
                                 $this->secondary .= 'J';
                             } else {
@@ -831,8 +894,10 @@ class DoubleMetaphone
                     break;
                 case 'H':
                     // only keep if first & before vowel or btw. self::LEN_2 vowels
-                    if (((0 == $this->current) || $this->doIsVowel($this->original, $this->current - 1))
-                        && $this->doIsVowel($this->original, $this->current + 1)) {
+                    if (
+                        ((0 == $this->current) || $this->doIsVowel($this->original, $this->current - 1))
+                        && $this->doIsVowel($this->original, $this->current + 1)
+                    ) {
                         $this->primary   .= 'H';
                         $this->secondary .= 'H';
                         $this->current   += self::LEN_2;
@@ -843,7 +908,8 @@ class DoubleMetaphone
                     break;
                 case 'J':
                     // obvious spanish, 'jose', 'san jacinto'
-                    if ($this->doStringAt(
+                    if (
+                        $this->doStringAt(
                             $this->original,
                             $this->current,
                             self::LEN_4,
@@ -858,8 +924,10 @@ class DoubleMetaphone
                             [
                                 'SAN ',
                             ]
-                        )) {
-                        if (((0 == $this->current) && (' ' == \substr($this->original, $this->current + self::LEN_4, 1)))
+                        )
+                    ) {
+                        if (
+                            ((0 == $this->current) && (' ' == \substr($this->original, $this->current + self::LEN_4, 1)))
                             || $this->doStringAt(
                                 $this->original,
                                 0,
@@ -867,7 +935,8 @@ class DoubleMetaphone
                                 [
                                     'SAN ',
                                 ]
-                            )) {
+                            )
+                        ) {
                             $this->primary   .= 'H';
                             $this->secondary .= 'H';
                         } else {
@@ -879,7 +948,8 @@ class DoubleMetaphone
                         break;
                     }
 
-                    if ((0 == $this->current)
+                    if (
+                        (0 == $this->current)
                         /* @phpstan-ignore-next-line */
                         && !$this->doStringAt($this->original, $this->current, self::LEN_4, ['JOSE'])
                     ) {
@@ -887,14 +957,16 @@ class DoubleMetaphone
                         $this->secondary .= 'A';
                     } else {
                         // spanish pron. of .e.g. 'bajador'
-                        if ($this->doIsVowel($this->original, $this->current - 1)
+                        if (
+                            $this->doIsVowel($this->original, $this->current - 1)
                             && !$this->doSlavoGermanic($this->original)
                             && (('A' == \substr($this->original, $this->current + 1, 1))
                                 || ('O' == \substr(
-                                        $this->original,
-                                        $this->current + 1,
-                                        1
-                                    )))) {
+                                    $this->original,
+                                    $this->current + 1,
+                                    1
+                                )))
+                        ) {
                             $this->primary   .= 'J';
                             $this->secondary .= 'H';
                         } else {
@@ -902,7 +974,8 @@ class DoubleMetaphone
                                 $this->primary   .= 'J';
                                 $this->secondary .= '';
                             } else {
-                                if (!$this->doStringAt(
+                                if (
+                                    !$this->doStringAt(
                                         $this->original,
                                         $this->current + 1,
                                         1,
@@ -926,7 +999,8 @@ class DoubleMetaphone
                                             'K',
                                             'L',
                                         ]
-                                    )) {
+                                    )
+                                ) {
                                     $this->primary   .= 'J';
                                     $this->secondary .= 'J';
                                 }
@@ -954,7 +1028,8 @@ class DoubleMetaphone
                 case 'L':
                     if ('L' == \substr($this->original, $this->current + 1, 1)) {
                         // spanish e.g. 'cabrillo', 'gallegos'
-                        if ((($this->current == ($this->length - self::LEN_3))
+                        if (
+                            (($this->current == ($this->length - self::LEN_3))
                                 && $this->doStringAt(
                                     $this->original,
                                     $this->current - 1,
@@ -966,14 +1041,14 @@ class DoubleMetaphone
                                     ]
                                 ))
                             || (($this->doStringAt(
-                                        $this->original,
-                                        $this->last - 1,
-                                        self::LEN_2,
-                                        [
+                                $this->original,
+                                $this->last - 1,
+                                self::LEN_2,
+                                [
                                             'AS',
                                             'OS',
                                         ]
-                                    )
+                            )
                                     || $this->doStringAt(
                                         $this->original,
                                         $this->last,
@@ -990,7 +1065,8 @@ class DoubleMetaphone
                                     [
                                         'ALLE',
                                     ]
-                                ))) {
+                                ))
+                        ) {
                             $this->primary   .= 'L';
                             $this->secondary .= '';
                             $this->current   += self::LEN_2;
@@ -1006,14 +1082,15 @@ class DoubleMetaphone
 
                     break;
                 case 'M':
-                    if (($this->doStringAt(
-                                $this->original,
-                                $this->current - 1,
-                                self::LEN_3,
-                                [
+                    if (
+                        ($this->doStringAt(
+                            $this->original,
+                            $this->current - 1,
+                            self::LEN_3,
+                            [
                                     'UMB',
                                 ]
-                            )
+                        )
                             && ((($this->current + 1) == $this->last)
                                 || $this->doStringAt(
                                     $this->original,
@@ -1023,7 +1100,8 @@ class DoubleMetaphone
                                         'ER',
                                     ]
                                 ))) // 'dumb', 'thumb'
-                        || ('M' == \substr($this->original, $this->current + 1, 1))) {
+                        || ('M' == \substr($this->original, $this->current + 1, 1))
+                    ) {
                         $this->current += self::LEN_2;
                     } else {
                         ++$this->current;
@@ -1058,15 +1136,17 @@ class DoubleMetaphone
                     }
 
                     // also account for "campbell" and "raspberry"
-                    if ($this->doStringAt(
-                        $this->original,
-                        $this->current + 1,
-                        1,
-                        [
+                    if (
+                        $this->doStringAt(
+                            $this->original,
+                            $this->current + 1,
+                            1,
+                            [
                             'P',
                             'B',
-                        ]
-                    )) {
+                            ]
+                        )
+                    ) {
                         $this->current += self::LEN_2;
                     } else {
                         ++$this->current;
@@ -1087,7 +1167,8 @@ class DoubleMetaphone
                     break;
                 case 'R':
                     // french e.g. 'rogier', but exclude 'hochmeier'
-                    if (($this->current == $this->last) && !$this->doSlavoGermanic($this->original)
+                    if (
+                        ($this->current == $this->last) && !$this->doSlavoGermanic($this->original)
                         && $this->doStringAt(
                             $this->original,
                             $this->current - self::LEN_2,
@@ -1104,7 +1185,8 @@ class DoubleMetaphone
                                 'ME',
                                 'MA',
                             ]
-                        )) {
+                        )
+                    ) {
                         $this->primary   .= '';
                         $this->secondary .= 'R';
                     } else {
@@ -1120,22 +1202,25 @@ class DoubleMetaphone
                     break;
                 case 'S':
                     // special cases 'island', 'isle', 'carlisle', 'carlysle'
-                    if ($this->doStringAt(
-                        $this->original,
-                        $this->current - 1,
-                        self::LEN_3,
-                        [
+                    if (
+                        $this->doStringAt(
+                            $this->original,
+                            $this->current - 1,
+                            self::LEN_3,
+                            [
                             'ISL',
                             'YSL',
-                        ]
-                    )) {
+                            ]
+                        )
+                    ) {
                         ++$this->current;
 
                         break;
                     }
 
                     // special case 'sugar-'
-                    if ((0 == $this->current)
+                    if (
+                        (0 == $this->current)
                         && $this->doStringAt(
                             $this->original,
                             $this->current,
@@ -1143,7 +1228,8 @@ class DoubleMetaphone
                             [
                                 'SUGAR',
                             ]
-                        )) {
+                        )
+                    ) {
                         $this->primary   .= 'X';
                         $this->secondary .= 'S';
                         ++$this->current;
@@ -1151,26 +1237,30 @@ class DoubleMetaphone
                         break;
                     }
 
-                    if ($this->doStringAt(
-                        $this->original,
-                        $this->current,
-                        self::LEN_2,
-                        [
-                            'SH',
-                        ]
-                    )) {
-                        // germanic
-                        if ($this->doStringAt(
+                    if (
+                        $this->doStringAt(
                             $this->original,
-                            $this->current + 1,
-                            self::LEN_4,
+                            $this->current,
+                            self::LEN_2,
                             [
+                            'SH',
+                            ]
+                        )
+                    ) {
+                        // germanic
+                        if (
+                            $this->doStringAt(
+                                $this->original,
+                                $this->current + 1,
+                                self::LEN_4,
+                                [
                                 'HEIM',
                                 'HOEK',
                                 'HOLM',
                                 'HOLZ',
-                            ]
-                        )) {
+                                ]
+                            )
+                        ) {
                             $this->primary   .= 'S';
                             $this->secondary .= 'S';
                         } else {
@@ -1183,7 +1273,8 @@ class DoubleMetaphone
                     }
 
                     // italian & armenian
-                    if ($this->doStringAt(
+                    if (
+                        $this->doStringAt(
                             $this->original,
                             $this->current,
                             self::LEN_3,
@@ -1199,7 +1290,8 @@ class DoubleMetaphone
                             [
                                 'SIAN',
                             ]
-                        )) {
+                        )
+                    ) {
                         if (!$this->doSlavoGermanic($this->original)) {
                             $this->primary   .= 'S';
                             $this->secondary .= 'X';
@@ -1214,7 +1306,8 @@ class DoubleMetaphone
 
                     // german & anglicisations, e.g. 'smith' match 'schmidt', 'snider' match 'schneider'
                     // also, -sz- in slavic language altho in hungarian it is pronounced 's'
-                    if (((0 == $this->current)
+                    if (
+                        ((0 == $this->current)
                             && $this->doStringAt(
                                 $this->original,
                                 $this->current + 1,
@@ -1233,17 +1326,20 @@ class DoubleMetaphone
                             [
                                 'Z',
                             ]
-                        )) {
+                        )
+                    ) {
                         $this->primary   .= 'S';
                         $this->secondary .= 'X';
-                        if ($this->doStringAt(
-                            $this->original,
-                            $this->current + 1,
-                            1,
-                            [
+                        if (
+                            $this->doStringAt(
+                                $this->original,
+                                $this->current + 1,
+                                1,
+                                [
                                 'Z',
-                            ]
-                        )) {
+                                ]
+                            )
+                        ) {
                             $this->current += self::LEN_2;
                         } else {
                             ++$this->current;
@@ -1252,40 +1348,46 @@ class DoubleMetaphone
                         break;
                     }
 
-                    if ($this->doStringAt(
-                        $this->original,
-                        $this->current,
-                        self::LEN_2,
-                        [
+                    if (
+                        $this->doStringAt(
+                            $this->original,
+                            $this->current,
+                            self::LEN_2,
+                            [
                             'SC',
-                        ]
-                    )) {
+                            ]
+                        )
+                    ) {
                         // Schlesinger's rule
                         if ('H' == \substr($this->original, $this->current + self::LEN_2, 1)) {
                             // dutch origin, e.g. 'school', 'schooner'
-                            if ($this->doStringAt(
-                                $this->original,
-                                $this->current + self::LEN_3,
-                                self::LEN_2,
-                                [
+                            if (
+                                $this->doStringAt(
+                                    $this->original,
+                                    $this->current + self::LEN_3,
+                                    self::LEN_2,
+                                    [
                                     'OO',
                                     'ER',
                                     'EN',
                                     'UY',
                                     'ED',
                                     'EM',
-                                ]
-                            )) {
+                                    ]
+                                )
+                            ) {
                                 // 'schermerhorn', 'schenker'
-                                if ($this->doStringAt(
-                                    $this->original,
-                                    $this->current + self::LEN_3,
-                                    self::LEN_2,
-                                    [
+                                if (
+                                    $this->doStringAt(
+                                        $this->original,
+                                        $this->current + self::LEN_3,
+                                        self::LEN_2,
+                                        [
                                         'ER',
                                         'EN',
-                                    ]
-                                )) {
+                                        ]
+                                    )
+                                ) {
                                     $this->primary   .= 'X';
                                     $this->secondary .= 'SK';
                                 } else {
@@ -1296,8 +1398,10 @@ class DoubleMetaphone
 
                                 break;
                             }
-                            if ((0 == $this->current) && !$this->doIsVowel($this->original, self::LEN_3)
-                                && ('W' != \substr($this->original, $this->current + self::LEN_3, 1))) {
+                            if (
+                                (0 == $this->current) && !$this->doIsVowel($this->original, self::LEN_3)
+                                && ('W' != \substr($this->original, $this->current + self::LEN_3, 1))
+                            ) {
                                 $this->primary   .= 'X';
                                 $this->secondary .= 'S';
                             } else {
@@ -1309,16 +1413,18 @@ class DoubleMetaphone
                             break;
                         }
 
-                        if ($this->doStringAt(
-                            $this->original,
-                            $this->current + self::LEN_2,
-                            1,
-                            [
+                        if (
+                            $this->doStringAt(
+                                $this->original,
+                                $this->current + self::LEN_2,
+                                1,
+                                [
                                 'I',
                                 'E',
                                 'Y',
-                            ]
-                        )) {
+                                ]
+                            )
+                        ) {
                             $this->primary   .= 'S';
                             $this->secondary .= 'S';
                             $this->current   += self::LEN_3;
@@ -1335,7 +1441,8 @@ class DoubleMetaphone
                     }
 
                     // french e.g. 'resnais', 'artois'
-                    if (($this->current == $this->last)
+                    if (
+                        ($this->current == $this->last)
                         && $this->doStringAt(
                             $this->original,
                             $this->current - self::LEN_2,
@@ -1344,7 +1451,8 @@ class DoubleMetaphone
                                 'AI',
                                 'OI',
                             ]
-                        )) {
+                        )
+                    ) {
                         $this->primary   .= '';
                         $this->secondary .= 'S';
                     } else {
@@ -1352,15 +1460,17 @@ class DoubleMetaphone
                         $this->secondary .= 'S';
                     }
 
-                    if ($this->doStringAt(
-                        $this->original,
-                        $this->current + 1,
-                        1,
-                        [
+                    if (
+                        $this->doStringAt(
+                            $this->original,
+                            $this->current + 1,
+                            1,
+                            [
                             'S',
                             'Z',
-                        ]
-                    )) {
+                            ]
+                        )
+                    ) {
                         $this->current += self::LEN_2;
                     } else {
                         ++$this->current;
@@ -1368,14 +1478,16 @@ class DoubleMetaphone
 
                     break;
                 case 'T':
-                    if ($this->doStringAt(
-                        $this->original,
-                        $this->current,
-                        self::LEN_4,
-                        [
+                    if (
+                        $this->doStringAt(
+                            $this->original,
+                            $this->current,
+                            self::LEN_4,
+                            [
                             'TION',
-                        ]
-                    )) {
+                            ]
+                        )
+                    ) {
                         $this->primary   .= 'X';
                         $this->secondary .= 'X';
                         $this->current   += self::LEN_3;
@@ -1383,15 +1495,17 @@ class DoubleMetaphone
                         break;
                     }
 
-                    if ($this->doStringAt(
-                        $this->original,
-                        $this->current,
-                        self::LEN_3,
-                        [
+                    if (
+                        $this->doStringAt(
+                            $this->original,
+                            $this->current,
+                            self::LEN_3,
+                            [
                             'TIA',
                             'TCH',
-                        ]
-                    )) {
+                            ]
+                        )
+                    ) {
                         $this->primary   .= 'X';
                         $this->secondary .= 'X';
                         $this->current   += self::LEN_3;
@@ -1399,7 +1513,8 @@ class DoubleMetaphone
                         break;
                     }
 
-                    if ($this->doStringAt(
+                    if (
+                        $this->doStringAt(
                             $this->original,
                             $this->current,
                             self::LEN_2,
@@ -1414,9 +1529,11 @@ class DoubleMetaphone
                             [
                                 'TTH',
                             ]
-                        )) {
+                        )
+                    ) {
                         // special case 'thomas', 'thames' or germanic
-                        if ($this->doStringAt(
+                        if (
+                            $this->doStringAt(
                                 $this->original,
                                 $this->current + self::LEN_2,
                                 self::LEN_2,
@@ -1441,7 +1558,8 @@ class DoubleMetaphone
                                 [
                                     'SCH',
                                 ]
-                            )) {
+                            )
+                        ) {
                             $this->primary   .= 'T';
                             $this->secondary .= 'T';
                         } else {
@@ -1453,15 +1571,17 @@ class DoubleMetaphone
                         break;
                     }
 
-                    if ($this->doStringAt(
-                        $this->original,
-                        $this->current + 1,
-                        1,
-                        [
+                    if (
+                        $this->doStringAt(
+                            $this->original,
+                            $this->current + 1,
+                            1,
+                            [
                             'T',
                             'D',
-                        ]
-                    )) {
+                            ]
+                        )
+                    ) {
                         $this->current += self::LEN_2;
                     } else {
                         ++$this->current;
@@ -1482,14 +1602,16 @@ class DoubleMetaphone
                     break;
                 case 'W':
                     // can also be in middle of word
-                    if ($this->doStringAt(
-                        $this->original,
-                        $this->current,
-                        self::LEN_2,
-                        [
+                    if (
+                        $this->doStringAt(
+                            $this->original,
+                            $this->current,
+                            self::LEN_2,
+                            [
                             'WR',
-                        ]
-                    )) {
+                            ]
+                        )
+                    ) {
                         $this->primary   .= 'R';
                         $this->secondary .= 'R';
                         $this->current   += self::LEN_2;
@@ -1497,7 +1619,8 @@ class DoubleMetaphone
                         break;
                     }
 
-                    if ((0 == $this->current)
+                    if (
+                        (0 == $this->current)
                         && ($this->doIsVowel($this->original, $this->current + 1)
                             || $this->doStringAt(
                                 $this->original,
@@ -1506,7 +1629,8 @@ class DoubleMetaphone
                                 [
                                     'WH',
                                 ]
-                            ))) {
+                            ))
+                    ) {
                         // Wasserman should match Vasserman
                         if ($this->doIsVowel($this->original, $this->current + 1)) {
                             $this->primary   .= 'A';
@@ -1519,7 +1643,8 @@ class DoubleMetaphone
                     }
 
                     // Arnow should match Arnoff
-                    if ((($this->current == $this->last) && $this->doIsVowel($this->original, $this->current - 1))
+                    if (
+                        (($this->current == $this->last) && $this->doIsVowel($this->original, $this->current - 1))
                         || $this->doStringAt(
                             $this->original,
                             $this->current - 1,
@@ -1538,7 +1663,8 @@ class DoubleMetaphone
                             [
                                 'SCH',
                             ]
-                        )) {
+                        )
+                    ) {
                         $this->primary   .= '';
                         $this->secondary .= 'F';
                         ++$this->current;
@@ -1547,15 +1673,17 @@ class DoubleMetaphone
                     }
 
                     // polish e.g. 'filipowicz'
-                    if ($this->doStringAt(
-                        $this->original,
-                        $this->current,
-                        self::LEN_4,
-                        [
+                    if (
+                        $this->doStringAt(
+                            $this->original,
+                            $this->current,
+                            self::LEN_4,
+                            [
                             'WICZ',
                             'WITZ',
-                        ]
-                    )) {
+                            ]
+                        )
+                    ) {
                         $this->primary   .= 'TS';
                         $this->secondary .= 'FX';
                         $this->current   += self::LEN_4;
@@ -1569,16 +1697,17 @@ class DoubleMetaphone
                     break;
                 case 'X':
                     // french e.g. breaux
-                    if (!(($this->current == $this->last)
+                    if (
+                        !(($this->current == $this->last)
                         && ($this->doStringAt(
-                                $this->original,
-                                $this->current - self::LEN_3,
-                                self::LEN_3,
-                                [
+                            $this->original,
+                            $this->current - self::LEN_3,
+                            self::LEN_3,
+                            [
                                     'IAU',
                                     'EAU',
                                 ]
-                            )
+                        )
                             || $this->doStringAt(
                                 $this->original,
                                 $this->current - self::LEN_2,
@@ -1587,20 +1716,23 @@ class DoubleMetaphone
                                     'AU',
                                     'OU',
                                 ]
-                            )))) {
+                            )))
+                    ) {
                         $this->primary   .= 'KS';
                         $this->secondary .= 'KS';
                     }
 
-                    if ($this->doStringAt(
-                        $this->original,
-                        $this->current + 1,
-                        1,
-                        [
+                    if (
+                        $this->doStringAt(
+                            $this->original,
+                            $this->current + 1,
+                            1,
+                            [
                             'C',
                             'X',
-                        ]
-                    )) {
+                            ]
+                        )
+                    ) {
                         $this->current += self::LEN_2;
                     } else {
                         ++$this->current;
@@ -1616,7 +1748,8 @@ class DoubleMetaphone
 
                         break;
                     }
-                    if ($this->doStringAt(
+                    if (
+                        $this->doStringAt(
                             $this->original,
                             $this->current + 1,
                             self::LEN_2,
@@ -1632,7 +1765,8 @@ class DoubleMetaphone
                                     $this->original,
                                     $this->current - 1,
                                     1
-                                )))) {
+                                )))
+                    ) {
                         $this->primary   .= 'S';
                         $this->secondary .= 'TS';
                     } else {
@@ -1679,7 +1813,7 @@ class DoubleMetaphone
      * @param string $string
      * @param int    $start
      * @param int    $length
-     * @param array  $list
+     * @param list<string> $list
      *
      * @return int
      */

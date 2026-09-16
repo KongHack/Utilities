@@ -1,4 +1,5 @@
 <?php
+
 namespace GCWorld\Utilities\Traits;
 
 /**
@@ -17,12 +18,12 @@ trait Colors
         }
 
         if (3 == strlen($htmlCode)) {
-            $htmlCode = $htmlCode[0].$htmlCode[0].$htmlCode[1].$htmlCode[1].$htmlCode[2].$htmlCode[2];
+            $htmlCode = $htmlCode[0] . $htmlCode[0] . $htmlCode[1] . $htmlCode[1] . $htmlCode[2] . $htmlCode[2];
         }
 
-        $r = hexdec($htmlCode[0].$htmlCode[1]);
-        $g = hexdec($htmlCode[2].$htmlCode[3]);
-        $b = hexdec($htmlCode[4].$htmlCode[5]);
+        $r = hexdec($htmlCode[0] . $htmlCode[1]);
+        $g = hexdec($htmlCode[2] . $htmlCode[3]);
+        $b = hexdec($htmlCode[4] . $htmlCode[5]);
 
         return $b + ($g << 0x8) + ($r << 0x10);
     }

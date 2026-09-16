@@ -1,4 +1,5 @@
 <?php
+
 namespace GCWorld\Utilities\Traits;
 
 use Ramsey\Uuid\Uuid;
@@ -29,11 +30,11 @@ trait FancyArrayTrait
             foreach ($value as $k => $v) {
                 $out .= '<tr>';
                 $out .= '<th class="text-nowrap" style="width:1%; vertical-align:top;">'
-                    .\htmlspecialchars((string) $k, ENT_QUOTES, 'UTF-8')
-                    .'</th>';
+                    . \htmlspecialchars((string) $k, ENT_QUOTES, 'UTF-8')
+                    . '</th>';
                 $out .= '<td style="vertical-align:top;">'
-                    .self::renderFancyArrayValue($v, $k)
-                    .'</td>';
+                    . self::renderFancyArrayValue($v, $k)
+                    . '</td>';
                 $out .= '</tr>';
             }
 
@@ -47,29 +48,29 @@ trait FancyArrayTrait
 
             if ($value instanceof \JsonSerializable) {
                 return '<div><span class="label label-info">Object</span> '
-                    .\htmlspecialchars($class, ENT_QUOTES, 'UTF-8')
-                    .'</div>'
-                    .self::renderFancyArrayValue($value->jsonSerialize(), $key);
+                    . \htmlspecialchars($class, ENT_QUOTES, 'UTF-8')
+                    . '</div>'
+                    . self::renderFancyArrayValue($value->jsonSerialize(), $key);
             }
 
             if (\method_exists($value, 'getArray')) {
                 return '<div><span class="label label-info">Object</span> '
-                    .\htmlspecialchars($class, ENT_QUOTES, 'UTF-8')
-                    .'</div>'
-                    .self::renderFancyArrayValue($value->getArray(), $key);
+                    . \htmlspecialchars($class, ENT_QUOTES, 'UTF-8')
+                    . '</div>'
+                    . self::renderFancyArrayValue($value->getArray(), $key);
             }
 
             if (\method_exists($value, '__toString')) {
                 return '<div><span class="label label-info">Object</span> '
-                    .\htmlspecialchars($class, ENT_QUOTES, 'UTF-8')
-                    .'</div><pre style="margin:0;">'
-                    .\htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8')
-                    .'</pre>';
+                    . \htmlspecialchars($class, ENT_QUOTES, 'UTF-8')
+                    . '</div><pre style="margin:0;">'
+                    . \htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8')
+                    . '</pre>';
             }
 
             return '<span class="text-danger">Object not printable: '
-                .\htmlspecialchars($class, ENT_QUOTES, 'UTF-8')
-                .'</span>';
+                . \htmlspecialchars($class, ENT_QUOTES, 'UTF-8')
+                . '</span>';
         }
 
         return self::renderFancyJsonScalar($value, $key);
@@ -98,7 +99,7 @@ trait FancyArrayTrait
         if (self::looksLikeBinaryUuidField($key, $value)) {
             $uuid = self::tryFormatBinaryUuid($value);
             if (null !== $uuid) {
-                return '<code>'.\htmlspecialchars($uuid, ENT_QUOTES, 'UTF-8').'</code>';
+                return '<code>' . \htmlspecialchars($uuid, ENT_QUOTES, 'UTF-8') . '</code>';
             }
         }
 
@@ -116,11 +117,11 @@ trait FancyArrayTrait
                 }
             }
 
-            return '<code>'.\htmlspecialchars($value, ENT_QUOTES, 'UTF-8').'</code>';
+            return '<code>' . \htmlspecialchars($value, ENT_QUOTES, 'UTF-8') . '</code>';
         }
 
         if (\is_int($value) || \is_float($value)) {
-            return '<span class="text-primary">'.\htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8').'</span>';
+            return '<span class="text-primary">' . \htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8') . '</span>';
         }
 
         return \htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
@@ -155,7 +156,7 @@ trait FancyArrayTrait
     protected static function tryFormatBinaryUuid(string $value): ?string
     {
         try {
-            return 'UUID: '.Uuid::fromBytes($value)->toString();
+            return 'UUID: ' . Uuid::fromBytes($value)->toString();
         } catch (\Throwable) {
             return null;
         }

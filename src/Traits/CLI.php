@@ -1,4 +1,5 @@
 <?php
+
 namespace GCWorld\Utilities\Traits;
 
 /**
@@ -6,6 +7,7 @@ namespace GCWorld\Utilities\Traits;
  */
 trait CLI
 {
+    /** @var array<string, string> */
     protected static array $foreground_colors = [
         'black'        => '0;30',
         'dark_gray'    => '1;30',
@@ -24,6 +26,8 @@ trait CLI
         'light_gray'   => '0;37',
         'white'        => '1;37',
     ];
+
+    /** @var array<string, string> */
     protected static array $background_colors = [
         'black'      => '40',
         'red'        => '41',
@@ -51,21 +55,21 @@ trait CLI
         $colored_string = '';
         // Check if given foreground color found
         if ($foreground_color != null && isset(self::$foreground_colors[$foreground_color])) {
-            $colored_string .= "\033[".self::$foreground_colors[$foreground_color]."m";
+            $colored_string .= "\033[" . self::$foreground_colors[$foreground_color] . "m";
         }
         // Check if given background color found
         if ($background_color != null && isset(self::$background_colors[$background_color])) {
-            $colored_string .= "\033[".self::$background_colors[$background_color]."m";
+            $colored_string .= "\033[" . self::$background_colors[$background_color] . "m";
         }
         // Add string and end coloring
-        $colored_string .= $string."\033[0m";
+        $colored_string .= $string . "\033[0m";
 
         return $colored_string;
     }
 
     /**
      * Returns all foreground color names
-     * @return array
+     * @return list<string>
      */
     public static function getForegroundColors(): array
     {
@@ -74,7 +78,7 @@ trait CLI
 
     /**
      * Returns all background color names
-     * @return array
+     * @return list<string>
      */
     public static function getBackgroundColors(): array
     {
