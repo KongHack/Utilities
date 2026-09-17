@@ -7,6 +7,31 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [2.3.0](https://github.com/KongHack/Utilities/releases/tag/2.3.0)
+
+### Added
+
+- GitHub Actions quality checks on PHP 8.4 and 8.5, with tag-driven release creation and release metadata validation.
+- Weekly Dependabot checks for Composer lockfile and non-major GitHub Actions updates.
+- Docker Compose development tooling using the same PHP image as CI.
+- Composer scripts for syntax checks, PHPStan, PHPCS, PHPUnit, and the combined quality suite.
+- PHPStan level 6, PSR-12, and PHPUnit configuration with characterization coverage for the core utilities.
+
+### Changed
+
+- Applied PSR-12 formatting and static-analysis type documentation across the package while retaining legacy public method names.
+- Reworked cURL form posts to use RFC 3986 query encoding and removed shell execution from raw POST helpers.
+- Removed the obsolete Cloudflare challenge helper.
+
+### Fixed
+
+- Corrected interval formatting for zero months and one-month intervals combined with years.
+- Compare parsed dates rather than raw date strings in `timeAgo()`.
+- Return the final value from associative arrays in `getLastArrayValue()`.
+- Accept valid falsey JSON output such as `0` in `JSONTrait::json_encode()`.
+- Kept thumbnail generation compatible with PHP 8.4 and PHP 8.5 GD return types.
+
+
 ## [2.2.5](https://github.com/KongHack/Utilities/releases/tag/2.2.5)
 - @GameCharmer Make `starExplode` a bit more flexible
 
@@ -87,5 +112,4 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [1.2.3](https://github.com/KongHack/Utilities/releases/tag/1.2.3)
  - @GameCharmer last release before moving to github
-
 

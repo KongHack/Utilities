@@ -107,11 +107,7 @@ trait Curl
     {
         $curl = curl_init();
 
-        $fields_string = '';
-        foreach ($fields as $key => $value) {
-            $fields_string .= $key . '=' . $value . '&';
-        }
-        $fields_string = rtrim($fields_string, '&');
+        $fields_string = http_build_query($fields, '', '&', PHP_QUERY_RFC3986);
 
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_POST, (bool) count($fields));
@@ -137,13 +133,7 @@ trait Curl
      */
     public static function postRaw(string $url, array $fields): string
     {
-        $command = 'curl ' . $url . ' \\';
-        foreach ($fields as $k => $v) {
-            $command .= "\n" . ' -d \'' . $k . '=' . $v . '\' \\';
-        }
-        $command = substr($command, 0, -2) . ';';
-
-        return shell_exec($command);
+        return self::post($url, $fields);
     }
 
     /**
@@ -154,57 +144,18 @@ trait Curl
      */
     public static function postStringRaw(string $url, string $data): string
     {
-        $command = 'curl --data \'' . $data . '\' ' . $url;
-        $command = $command . ';';
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 30);
+        curl_setopt($curl, CURLOPT_MAXREDIRS, 7);
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
 
-        return shell_exec($command);
-    }
+        $response = curl_exec($curl);
+        curl_close($curl);
 
-    /**
-     * @param string $url
-     * @return string
-     */
-    public static function getCF(string $url): string
-    {
-        //get cloudflare ChallengeForm
-        $data = self::openURLCF($url);
-        preg_match('/<form id="ChallengeForm" .+ name="act" value="(.+)".+name="jschl_vc" value="(.+)".+<\/form>.+jschl_answer.+\(([0-9\+\-\*]+)\);/Uis', $data, $out);
-        if (count($out) > 0) {
-            eval("\$jschl_answer=$out[3];");
-            $post['act']             = $out[1];
-            $post['jschl_vc']        = $out[2];
-            // $post['jschl_answer']    = $jschl_answer;
-            //send jschl_answer to the website
-            $data = self::openURLCF($url, $post);
-        }
-
-        return($data);
-    }
-
-    /**
-     * @param string $url
-     * @param array<string, string> $post
-     * @return string
-     */
-    protected static function openURLCF(string $url, array $post = []): string
-    {
-        $headers[] = 'User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:13.0) Gecko/20100101 Firefox/13.0.1';
-        $headers[] = 'Accept: application/json, text/javascript, */*; q=0.01';
-        $headers[] = 'Accept-Language: ar,en;q=0.5';
-        $headers[] = 'Connection: keep-alive';
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_VERBOSE, true);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        if (count($post) > 0) {
-            curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
-        }
-        curl_setopt($ch, CURLOPT_COOKIEFILE, '/tmp/curl.cookie');
-        curl_setopt($ch, CURLOPT_COOKIEJAR, '/tmp/curl.cookie');
-        $data = curl_exec($ch);
-
-        return($data);
+        return false === $response ? '' : $response;
     }
 }

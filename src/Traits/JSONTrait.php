@@ -50,7 +50,7 @@ trait JSONTrait
     public static function json_encode(array|JsonSerializable|stdClass $data, int $flags = 0): string
     {
         $result = \json_encode($data, $flags);
-        if (!$result) {
+        if (false === $result) {
             throw new Exception('JSON Encode Failed');
         }
 

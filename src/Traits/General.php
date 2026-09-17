@@ -203,6 +203,6 @@ trait General
             return null;
         }
 
-        return $arr[count($arr) - 1];
+        return $arr[array_key_last($arr)];
     }
 }

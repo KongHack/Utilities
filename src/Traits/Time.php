@@ -89,7 +89,7 @@ trait Time
 
         // months
         if (\in_array('m', $parts)) {
-            if (0 == $interval->y && $interval->m <= 1) {
+            if (1 == $interval->m) {
                 $bits[] = '1 month';
             } elseif ($interval->m > 1) {
                 $bits[] = '%m months';
@@ -195,10 +195,6 @@ trait Time
      */
     public static function timeAgo(string $min, ?string $max = null): string
     {
-        if (null !== $max && $min > $max) {
-            return '';
-        }
-
         if (null === $max) {
             $max = 'now';
         }
@@ -214,6 +210,11 @@ trait Time
         } catch (Exception) {
             $maxDate = new DateTime();
         }
+
+        if ($minDate > $maxDate) {
+            return '';
+        }
+
         $interval = $minDate->diff($maxDate, true);
 
         $units = [

@@ -31,6 +31,7 @@ final class UtilitiesTest extends TestCase
         self::assertSame('01:01:01', UtilitiesHarness::integerToTime(3661));
         self::assertSame('file.txt', UtilitiesHarness::getFileNameFromPath('/tmp/file.txt'));
         self::assertNull(UtilitiesHarness::getLastArrayValue([]));
+        self::assertSame(2, UtilitiesHarness::getLastArrayValue(['first' => 1, 'last' => 2]));
     }
 
     public function testTimeHelpers(): void
@@ -43,12 +44,21 @@ final class UtilitiesTest extends TestCase
             '1 day 2 hours',
             UtilitiesHarness::formatInterval(new DateInterval('P1DT2H'), ['d', 'h'])
         );
+        self::assertSame('', UtilitiesHarness::formatInterval(new DateInterval('P0D')));
+        self::assertSame('1 year 1 month', UtilitiesHarness::formatInterval(new DateInterval('P1Y1M')));
+        self::assertSame('1 day', UtilitiesHarness::timeAgo('12/31/2025', '01/01/2026'));
     }
 
     public function testJsonAndDisplayHelpers(): void
     {
         self::assertSame(['enabled' => true], UtilitiesHarness::safe_json_decode('{"enabled":true}'));
         self::assertSame('{"enabled":true}', UtilitiesHarness::json_encode(['enabled' => true]));
+        self::assertSame('0', UtilitiesHarness::json_encode(new class implements \JsonSerializable {
+            public function jsonSerialize(): mixed
+            {
+                return 0;
+            }
+        }));
         self::assertStringContainsString('value', UtilitiesHarness::renderFancyArrayValue(['key' => 'value']));
         self::assertSame(0x336699, UtilitiesHarness::HTMLToRGB('#336699'));
     }
