@@ -1,5 +1,12 @@
 # Utilities
 
+![Packagist](https://img.shields.io/packagist/dm/gcworld/utilities.svg)
+![Packagist](https://img.shields.io/packagist/dt/gcworld/utilities.svg)
+
+![Packagist PHP](https://img.shields.io/packagist/php-v/gcworld/utilities.svg)
+![Packagist](https://img.shields.io/packagist/v/gcworld/utilities.svg)
+![GitHub](https://img.shields.io/github/tag/konghack/utilities.svg)
+
 Reusable PHP utility traits and helpers shared across GCWorld applications.
 
 ### Version
