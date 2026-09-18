@@ -10,7 +10,7 @@
 Reusable PHP utility traits and helpers shared across GCWorld applications.
 
 ### Version
-2.3.0
+2.3.1
 
 ## Requirements
 

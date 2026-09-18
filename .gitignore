@@ -14,3 +14,4 @@
 autoload/GCWorld/ORM/Generated/*
 .phpunit.cache/
 docker-compose.override.yml
+/vendor/

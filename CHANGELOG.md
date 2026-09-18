@@ -7,6 +7,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [2.3.1](https://github.com/KongHack/Utilities/releases/tag/2.3.1)
+- @Mitch Patch starImplode and starExplode Docblocks
+
+
+
 ## [2.3.0](https://github.com/KongHack/Utilities/releases/tag/2.3.0)
 
 ### Added

@@ -83,7 +83,7 @@ trait Str
      *
      * @throws \Exception
      *
-     * @return array<int, string>
+     * @return array<int, scalar>
      */
     public static function starExplode(mixed $str): array
     {
@@ -106,7 +106,7 @@ trait Str
     }
 
     /**
-     * @param list<string> $arr
+     * @param list<scalar> $arr
      *
      * @return string
      */
